@@ -1,0 +1,25 @@
+(https://medium.com/manato/introduce-babel-new-plugins-to-create-react-app-ea55f56c3811)
+1. yarn add -D react-app-rewired customize-cra
+2. Create a config-overrides.js file in the root directory:
+
+/* config-overrides.js */const { useBabelRc, override, useEslintRc } = require('customize-cra')
+
+module.exports = override(
+  useBabelRc()/*,
+  useEslintRc()*/
+);
+
+3. /* package.json */
+"scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test --env=jsdom",
+    "eject": "react-scripts eject"
+}
+
+4. /* .babelrc */
+{
+  "plugins": [
+    ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }] // `style: true` for less
+  ]
+}
