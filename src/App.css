@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+.income-input {
+  background-color: '#ffffff';
+  height: 20px;
+}.calculate-btn {
+  width: 140px;
+  margin-top: 10px;
+}

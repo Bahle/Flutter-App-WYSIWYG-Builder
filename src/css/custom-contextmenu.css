@@ -1,0 +1,15 @@
+.custom-root {
+  background-color: #fff;
+}
+
+.custom-divider {
+  background-color: #000;
+}
+
+.custom-selected {
+  background-color: #f00;
+}
+
+.react-contextmenu-wrapper div {
+	position: absolute !important;
+}

@@ -1,0 +1,50 @@
+#components-layout-demo-fixed .logo {
+  width: 120px;
+  height: 31px;
+  background: rgba(255,255,255,.2);  
+  margin: 16px 24px 16px 0;
+  float: left;
+}
+
+.gutter-box {
+  padding: 5px 0;
+  text-align: center;
+}
+
+.gutter-row h4 {
+	text-align: center;
+	font-weight: bold;
+}
+
+.sm-visible {
+	display: none;
+}
+@media only screen and (max-width: 600px) {
+  .sm-hide {
+    display: none;
+  }
+  .sm-visible {
+    display: block !important;
+  }
+}
+
+.ant-card-body {
+    padding: 1px 12px;
+    zoom: 1;
+}
+
+.app-page {
+  width: 360px;
+  float: left;
+  margin: 21px;
+  margin-bottom: 30px;
+}
+.page-title {
+  font-size: 18px;
+}
+.app-page .ant-card-body {
+  padding: 0;
+}
+.widget-tab {
+  width: 100% !important;
+}

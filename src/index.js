@@ -1,7 +1,14 @@
-import React, { Component } from 'react';
-import { render } from 'react-dom';
-import KonvaApp from './konva_example'
-import ArrowApp from './arrow_example'
-import { DatePicker } from 'antd';
+import React from 'react';
+// import { Provider } from 'mobx-react'
+import IncomeDomainStore from './incomeDomainStore'
+import IncomeUiStore from './incomeUiStore'
+import App from './App'
+import Home from './pages/Home'
+import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 
-render(<DatePicker />, document.getElementById('root'));
+ReactDOM.render(
+		<BrowserRouter>
+			<App />
+		</BrowserRouter>,
+document.getElementById('root'))
