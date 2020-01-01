@@ -10,24 +10,15 @@ import { setGlobalShapesByShape } from './GlobalState';
 const fillStyle = {width: '100%', height: '100%'};
 
 const Demo = (props/*: DemoProps*/) => {
-  const { getRef, id, key, type, x, y, angle, width, height, externalSetFocus, isFocused, stageId, widgetProps } = props // focused should be inherited from parent general widget
+  const { getRef, id, key, type, x, y, angle, width, height, externalSetFocus, isFocused, stageId } = props // focused should be inherited from parent general widget
   const [focused, setFocused] = React.useState((() => { console.log('Demo init being called'); return false; })() || false);
   const [widgetType, setWidgetType] = React.useState(type);
-  // const [getWidgetProps, setWidgetProps] = React.useState(widgetProps);
 
   // alert('what teh fuck is props: ' + JSON.stringify(props));
 
-  const doIt = text => {
-    alert('doing it?')
-    // setWidgetProps(text);
-  }
+
 
   let elem = null;
-
-  /*const setWidgetProps = function(text) {
-    // this.setState({widgetProps: text})
-    setWidgetProps(text)
-  }*/
 
   /*React.useEffect(() => {
       console.clear();
@@ -45,7 +36,7 @@ const Demo = (props/*: DemoProps*/) => {
       onBlur={() => { setFocused(false); /*window.localStorage.removeItem('currentSelection');*/ }}
       onFocus={() => { setFocused(true); }} 
       onMouseDown={() => { 
-        let shape = {x, y, width, height, id, type, stageId, key, widgetProps};
+        let shape = {x, y, width, height, id, type, stageId, key};
         window.localStorage.setItem('currentSelection', JSON.stringify(shape)); /*console.log( x, y, width, height);*/ 
         setGlobalShapesByShape(shape);
       }}
@@ -62,7 +53,7 @@ const Demo = (props/*: DemoProps*/) => {
         width: width,
         height: height,
         transform: `rotate(${angle}deg)`,
-        border: `${/*isFocused*/focused ? '3px' : '0'} solid black`,
+        border: `${isFocused/* || focused*/ ? '3px' : '0'} solid black`,
         boxSizing: "border-box"
       }}
       className='widget'
@@ -73,7 +64,7 @@ const Demo = (props/*: DemoProps*/) => {
           // if(false) return <div>Look at me</div>; else return <div>Check me out</div>
           switch(type) {
             case Widget.Empty: return <div tabIndex={id} key={id} variant="outlined" style={{...fillStyle, display:'flex', justifyContent:'center', alignItems:'center', border: 'dashed 2px silver'}}>...</div>; break;
-            case Widget.RaisedButton: return <Button variant="contained" style={fillStyle}>{ widgetProps || 'Default' } </Button>; break;
+            case Widget.RaisedButton: return <Button variant="contained" style={fillStyle}>Default</Button>; break;
             case Widget.FlatButton: return <Button style={fillStyle}>Default</Button>; break;
             case Widget.OutlineButton: return <Button variant="outlined" style={fillStyle}>Default</Button>; break;
             case Widget.Image: return <Button variant="outlined" style={fillStyle}>Default</Button>; break;

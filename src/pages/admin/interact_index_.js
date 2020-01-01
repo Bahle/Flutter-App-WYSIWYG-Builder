@@ -3,8 +3,6 @@ import { render } from 'react-dom';
 import ResizeDemo from '../../ResizeDemo';
 import { Widget } from '../../enums';
 import { setGlobalShapesByStage, loadGlobalShapes } from '../../GlobalState';
-import {observable} from "mobx"
-import {observer} from "mobx-react"
 
 const uuidv1 = require('uuid/v1');
 
@@ -21,8 +19,7 @@ let stageShapes = [];
 }*/
 
 // const Stage = ({id}) => {
-// @observer
-class Stage extends React.Component {
+class Stage extends React.PureComponent {
 	// let ids = [uuidv1()];
 
 	// let selectedGuy = null;
@@ -37,16 +34,9 @@ class Stage extends React.Component {
 		super(props)
 
 		this.state = {
-			shapes: loadGlobalShapes(this.props.id, 'start') || [],
-			good: null
+			shapes: loadGlobalShapes(this.props.id, 'start') || []
 		};
-
-		this.sam = {};
 	}
-
-	/*state = {
-		shapes: loadGlobalShapes(this.props.id, 'start') || []
-	};*/
 
 	/*componentDidMount() {
 		this.setState({
@@ -58,48 +48,37 @@ class Stage extends React.Component {
 
 	init = false;
 
-	/*shouldComponentUpdate(nextProps, nextState) {
-		alert('this.state: ' + JSON.stringify(this.state));
-		alert('nextState: ' + JSON.stringify(nextState));
-		console.log('state same? ' + nextState == this.state)
+	// shouldComponentUpdate(nextProps, nextState) {
+		/*console.log('state same? ' + nextState == this.state)
 		if(nextState == this.state) return false;
 		console.dir(nextState);
 		console.dir(nextState);
 
-		return true;
+		return true;*/
 		// return this.init;
-		return this.state != nextState;
 
-	}*/
-	hello(text) {
-		const componentId = JSON.parse(window.localStorage.currentSelection).id;
+	// }
 
-		/*alert('hello, world')
-		let newShapes = this.state.shapes.map(shape => {
-			console.log('--- look here ---');
-			console.dir(shape);
-			if(componentId == shape.id) {
-				alert('matched: ' + componentId)
-				alert(JSON.stringify(shape.props))
-				// alert(JSON.stringify(this.refs))
-				shape.widgetProps = text;
-				this.refs.find(ref => ref.id == sha)
+	componentWillReceiveProps(nextProps){
+		console.log('nextProps');
+		console.dir(nextProps);
 
-				// if(shape.widgetProps === undefined) shape.widgetProps = {};
-				// this.refs[shape.id].doIt(text);
-			}
-			
-			return shape;
-		});
+		console.log('---------------');
 
-		// alert('newShapes is: ' + JSON.stringify(newShapes));
-		this.setState({shapes: newShapes});
-		setGlobalShapesByStage(this.props.id, newShapes);*/
+		console.log('this.props');
+		console.dir(this.props);
 
-		// console.dir(this.sam);
-		this.sam[componentId].helloWorld();
-	}
+	    /*if (nextProps.inputValue !== this.props.inputValue) {
+	      this.setState({ inputVal: nextProps.inputValue })
+	    }*/
+	  }
 
+	// stageShapes = shapes;
+	// setGlobalShapesByStage(id, shapes);
+
+	/*React.useEffect(function() {
+	    localStorage.setItem("use-dark-mode", shapes);
+	  }, [shapes]);*/
 
 	handleOnKeyDown = (e) => {
 		e.preventDefault();
@@ -156,26 +135,8 @@ class Stage extends React.Component {
 		}
 	}
 
-	good = null
 	// console.log('the stage id is ' + id);
-	// refs = 'sdfsdfsdf'
-	/*sam0 = null; //React.createRef();
-	sam1 = React.createRef();
-	sam2 = React.createRef();
-	sam3 = React.createRef();
-	sam4 = React.createRef();
-	sam5 = React.createRef();
-	sam6 = React.createRef();
-	sam7 = React.createRef();
-	sam8 = React.createRef();
-	sam9 = React.createRef();
-	sam10 = React.createRef();
-	fuckRef = React.createRef();*/
-
 	render() {
-		// const good = this.state !== null && this.state.shapes.map(shapeProps => <ResizeDemo {...shapeProps} />);
-		// this.setState({good});
-
 		return (
 			<div onKeyDown={this.handleOnKeyDown} id={this.props.id} style={{width: '360px', height: '640px', border: 'solid 2px black'}} onMouseDown={e => {
 				if(window.localStorage.getItem('currentTool') != 'rectangle') return;
@@ -205,7 +166,7 @@ class Stage extends React.Component {
 					setGlobalShapesByStage(this.props.id, newShapes);
 				}
 			}}>
-				{ this.state.shapes.map(shapeProps => <ResizeDemo ref={shape => this.sam[shapeProps.id] = shape} {...shapeProps} />) }
+				{ this.state !== null && this.state.shapes.map(shapeProps => <ResizeDemo {...shapeProps} />) }
 			</div>
 		)
 	}

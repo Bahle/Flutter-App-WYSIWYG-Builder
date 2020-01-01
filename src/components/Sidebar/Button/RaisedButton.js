@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Form, Input } from 'antd';
+import { observer, inject } from 'mobx-react'
 
+@inject('toolDomainStore')
 class RaisedButton extends React.Component {
 	formItemLayout = {
       labelCol: {
@@ -13,11 +15,16 @@ class RaisedButton extends React.Component {
       },
     };
 
+    handleChange(e) {
+    	// console.dir(e.target.value);
+    	this.props.toolDomainStore.setText(e.target.value)
+    }
+
     render() {
 	    const { getFieldDecorator } = this.props.form;
 
 		return(
-			<Form {...this.formItemLayout} onSubmit={() => {}}>
+			<Form {...this.formItemLayout}>
 		        <Form.Item label="Text">
 		          {getFieldDecorator('text', {
 		            rules: [
@@ -30,7 +37,7 @@ class RaisedButton extends React.Component {
 		                message: 'Please input the button text',
 		              },
 		            ],
-		          })(<Input />)}
+		          })(<Input onChange={this.handleChange.bind(this)} />)}
 		        </Form.Item>
 		    </Form>
 		)

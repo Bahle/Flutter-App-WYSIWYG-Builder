@@ -21,19 +21,22 @@ const { Meta } = Card;
 
 const $ = window.$;
 
-const Page = ({title, height = 640, styling, children}) => {
-  return (
-    <div className="app-page">
-      <Card
-          hoverable
-          style={styling}
-        >
-        {/*<Button type="primary" icon="plus" style={{backgroundColor: '#d1d1d1', color: 'white', borderColor: 'transparent'}} onClick={this.showModal} />*/}
-        {children}
-      </Card>
-      <div className="page-title">{title}</div>
-    </div>
-  );
+@observer
+class Page extends React.PureComponent {
+  render() {
+    return (
+      <div className="app-page">
+        <Card
+            hoverable
+            style={this.props.styling}
+          >
+          {/*<Button type="primary" icon="plus" style={{backgroundColor: '#d1d1d1', color: 'white', borderColor: 'transparent'}} onClick={this.showModal} />*/}
+          {this.props.children}
+        </Card>
+        <div className="page-title">{this.props.title}</div>
+      </div>
+    );
+  }
 }
 
 const ContainerType = {
@@ -60,27 +63,31 @@ const NewContainerStyle = {height: 640, border: 'dashed 3px #ccc', display: 'fle
 
 @observer
 class Home extends Component {
-  @observable selection = null; /* MobX managed instance state */
+  @observable sidebar = null; /* MobX managed instance state */
+  @observable tool = null; /* MobX managed instance state */
 
   state = {
     key: 'pages',
     noTitleKey: 'app',
     tool: null,
     visible: false,
-    sidebar: null
+    // sidebar: null
   }
 
   newPageName = ''
 
   onTabChange = (key, type) => {
     // alert(key + ' ' + type);
-    this.setState({ [type]: key });
+    // this.setState({ [type]: key });
 
   }
 
   handleToolChange = e => {
     this.setState({ tool: e.target.value });
+    // this.tool = e.target.value;
     window.localStorage.setItem('currentTool', e.target.value);
+    this.coolies.hello('This is cool');
+    // alert('coolies props: ' + JSON.stringify(this.coolies.props));
   };
 
 
@@ -178,6 +185,8 @@ class Home extends Component {
     }
   ];
   
+  coolies = null;
+
   /*self = this
 
   handleGlobalKeyDown(e) {
@@ -189,16 +198,24 @@ class Home extends Component {
       }
     }
   }*/
-
   // tabs:
+  // if this fucking thing was put in the render method as is every tiny change on the page would trigger a re-render
+  fuckfuck = this.tabs.pages.map(page => (
+                    <Page title={page.name} type={page.type} styling={NewContainerStyle} key={'p' + uuidv1()}>
+                      <Stage ref={(cool) => this.coolies = cool} key={page.name} id={page.name} />
+                    </Page>)
+                  )
+
   componentDidMount() {
     window.localStorage.setItem('currentTool', 'rectangle');
 
     const self = this;
     document.addEventListener("keydown", function(e) {
+      // alert(e.keyCode)
       if(e.keyCode == 27) {
         if(self.state.tool != null) {
           self.setState({tool: null});
+          // this.tool = null;
           window.localStorage.setItem('currentTool', null);
         }
       }
@@ -240,7 +257,7 @@ class Home extends Component {
           <Modal
             key="modalKey"
             title="Basic Modal"
-            visible={this.state.visible}
+            visible={false /*this.state.visible*/}
             onOk={this.handleModalOk}
             onCancel={this.handleModalCancel}
           >
@@ -264,25 +281,20 @@ class Home extends Component {
               }
             }).bind(this)}
             md={19} style={{paddingLeft:'12px', paddingRight:'12px', textAlign:'center', display:'flex', justifyContent: 'center'}}>
-              <div ref="pages-tab" className="widget-tab" style={ this.state.key != 'pages' ? { display: 'none' } : {} }>
-                {
-                  this.tabs.pages.map(page => (
-                    <Page title={page.name} type={page.type} styling={NewContainerStyle} key={'p' + uuidv1()}>
-                      <Stage key={page.name} id={page.name} />
-                    </Page>)
-                  )
-                }
+              <div className="widget-tab">
+                    {this.fuckfuck}
+                
                 <Page title="New Page" styling={NewContainerStyle}>
                   <Button type="primary" icon="plus" style={{backgroundColor: '#d1d1d1', color: 'white', borderColor: 'transparent'}} onClick={this.showModal} />
                 </Page>
               </div>
-              <div ref="popups-tab" className="widget-tab" style={ this.state.key != 'popups' ? { display: 'none' } : {} }>
+              <div ref="popups-tab" className="widget-tab" style={{ display: 'none' }}>
                 {
-                  this.tabs.popups.map(popup => (
+                  /*this.tabs.popups.map(popup => (
                     <Page title={popup.name} type={popup.type} styling={NewContainerStyle} key={'pa' + uuidv1()}>
-                      {/*<Stage key={'sas' + uuidv1()} id={'sa' + uuidv1()} />*/}
+                      {<Stage key={'sas' + uuidv1()} id={'sa' + uuidv1()} />}
                     </Page>)
-                  )
+                  )*/
                 }
                 <Page title="New Popup" styling={NewContainerStyle}>
                   <Button type="primary" icon="plus" style={{backgroundColor: '#d1d1d1', color: 'white', borderColor: 'transparent'}} onClick={this.showModal} />
@@ -303,22 +315,33 @@ class Home extends Component {
 
             </Col>
             <Col md={5} style={{paddingLeft: '12px', paddingRight: '12px', borderLeft: 'thin solid', minHeight: '700px'}}>
-              {
-                (function() {
-                  switch(this.state.sidebar) {
-                    case 'RaisedButton': return <RaisedButtonSidebar />; break;
-                    case 'Page': return <PageSidebar />; break;
-                    case 'Project': return <ProjectSidebar />; break;
-                    default: return <div>No item selected</div>
-                  }
-
-                  return <div>Hello</div>
-                }).bind(this)()
-              }
+              <Fuck sidebar={this.sidebar} />
             </Col>
           </Row>
         </div>
       </DashboardLayout>)
+  }
+}
+
+@observer
+class Fuck extends React.Component {
+  render() {
+    return(
+      <div>
+      {
+        (function() {
+          switch(this.props.sidebar) {
+            case 'RaisedButton': return <RaisedButtonSidebar />; break;
+            case 'Page': return <PageSidebar />; break;
+            case 'Project': return <ProjectSidebar />; break;
+            default: return <div>No item selected</div>
+          }
+
+          // return <div>Hello</div>
+        }).bind(this)()
+      }
+      </div>
+    )
   }
 }
 
