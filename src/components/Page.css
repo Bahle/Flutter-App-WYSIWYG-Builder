@@ -1,0 +1,7 @@
+.page-overflowed {
+	overflow-y: auto;
+	overflow-x: hidden;
+	scrollbar-color: #ddd whitesmoke;
+	scrollbar-width: thin;
+	/*width: 370px;*/
+}

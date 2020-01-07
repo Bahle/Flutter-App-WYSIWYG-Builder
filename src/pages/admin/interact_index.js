@@ -38,7 +38,8 @@ class Stage extends React.Component {
 
 		this.state = {
 			shapes: loadGlobalShapes(this.props.id, 'start') || [],
-			good: null
+			good: null,
+			height: '640px'
 		};
 
 		this.sam = {};
@@ -100,6 +101,14 @@ class Stage extends React.Component {
 		this.sam[componentId].helloWorld();
 	}
 
+	setText(text) {
+		const componentId = JSON.parse(window.localStorage.currentSelection).id;
+		this.sam[componentId].setText(text);	
+	}
+
+	setHeight(value) {
+		this.setState({height: value + 'px'})
+	}
 
 	handleOnKeyDown = (e) => {
 		e.preventDefault();
@@ -177,9 +186,9 @@ class Stage extends React.Component {
 		// this.setState({good});
 
 		return (
-			<div onKeyDown={this.handleOnKeyDown} id={this.props.id} style={{width: '360px', height: '640px', border: 'solid 2px black'}} onMouseDown={e => {
+			<div onKeyDown={this.handleOnKeyDown} id={this.props.id} style={{width: '360px', height: this.state.height, border: 'solid 2px black'}} onMouseDown={e => {
+				// alert(window.localStorage.getItem('currentTool'));
 				if(window.localStorage.getItem('currentTool') != 'rectangle') return;
-
 				//! took me some time to figure out
 				// in ResizeDemo when store updated props in localStorage the one here are not updated
 				// hence update the props from localStorage

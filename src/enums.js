@@ -45,4 +45,30 @@ const Widget = {
 	Rating: 38, // not included
 }
 
-export { Widget };
+const ContainerType = {
+  Page: {
+  	Normal: 'Normal',
+  	Login: 'Login',
+  	SignUp: 'SignUp',
+  	OnBoard: 'OnBoard',
+  	Chat: 'Chat'
+  },
+  Popup: {
+    Dialog: 'Dialog',
+    Drawer:  'Drawer',
+    BottomSheet: 'BottomSheet',
+    // Snackbar: 5,
+    Tooltip: 'Tooltip',
+    DatePicker: 'DatePicker',
+  },
+  container: {
+    TabView: 'TabView',
+    PageView: 'PageView',
+    IndexedStack: 'IndexedStack',
+    Stepper: 'Stepper',
+    ExpansionPanel: 'ExpansionPanel',
+    Form: 'Form'
+  }
+}
+
+export { Widget, ContainerType };

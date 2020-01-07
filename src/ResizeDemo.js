@@ -55,11 +55,19 @@ class ResizeDemo extends React.Component {
   }
 
   helloWorld = () => {
+    alert('helloWorld')
     let newProps = {...this.state.coordinate, widgetProps: 'Yah neh'};
     // setCoordinate(newProps) // why not persisting type???
     this.setState({coordinate: newProps});
     
     setGlobalShapesByShape(newProps)
+  }
+
+  setText = text => {
+    // alert('setting text: ' + text);
+    const newProps = {...this.state.coordinate, widgetProps: text};
+    this.setState({coordinate: newProps});
+    setGlobalShapesByShape(newProps);
   }
 
   attributes = {
