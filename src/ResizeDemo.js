@@ -65,7 +65,7 @@ class ResizeDemo extends React.Component {
 
   setText = text => {
     // alert('setting text: ' + text);
-    const newProps = {...this.state.coordinate, widgetProps: text};
+    const newProps = {...this.state.coordinate, widgetProps: {text}};
     this.setState({coordinate: newProps});
     setGlobalShapesByShape(newProps);
   }
@@ -117,7 +117,7 @@ class ResizeDemo extends React.Component {
                     key: this.state.coordinate.id,
                     type: JSON.parse(window.localStorage.currentSelection).type,
                     isFocused: this.state.coordinate.isFocused,
-                    widgetProps: this.state.coordinate.widgetProps
+                    widgetProps: {text: this.state.coordinate.widgetProps} // <- start here by making sure widgetProps is object not text,
                     // isFocused: true <- start from here
                   }
 
@@ -189,7 +189,7 @@ class ResizeDemo extends React.Component {
                   key: this.state.coordinate.id,
                   type: JSON.parse(window.localStorage.currentSelection).type,
                   isFocused: this.state.coordinate.isFocused,
-                  widgetProps: this.state.coordinate.widgetProps
+                  widgetProps: {text: this.state.coordinate.widgetProps} // <- start here by making sure widgetProps is object not text,
                   // isFocused: true
                 }
                 // console.log('Fucking results: ' + JSON.stringify(result))

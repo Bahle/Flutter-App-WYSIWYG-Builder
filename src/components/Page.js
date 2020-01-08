@@ -4,11 +4,18 @@ import './Page.css';
 
 
 class Page extends React.PureComponent {
-  childElement = React.Children.only(this.props.children);
+  constructor(props) {
+    super(props);
+    this.childElement = React.Children.only(this.props.children);
+    
+    /*alert(window.localStorage.pages)
+    alert(typeof JSON.parse(window.localStorage.pages))
+    alert(this.props.title + ' ' + JSON.parse(window.localStorage.pages).find(page => true).height)*/
 
-  state = {
-    // height: '640px'
-    overflow: false
+    this.state = {
+      // height: '640px'
+      overflow: (this.props.title != 'New Page' && this.props.title != 'New Popup') && JSON.parse(window.localStorage.pages).find(page => page.name == this.props.title).height > 640
+    }
   }
 
   handlePageClick() {
@@ -26,6 +33,10 @@ class Page extends React.PureComponent {
 
     this.stageRef.setHeight(value);
     // this.setState({height: value + 'px'})
+  }
+
+  getStageRef() {
+    return this.stageRef;
   }
 
   /*componentDidMount() {

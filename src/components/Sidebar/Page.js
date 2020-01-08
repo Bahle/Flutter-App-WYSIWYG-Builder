@@ -28,7 +28,7 @@ class Page extends React.Component {
 
     refreshProps() {
     	this.props.form.setFieldsValue({
-	      height: JSON.parse(window.localStorage.currentPage).height,
+	      height: JSON.parse(window.localStorage.pages).find(page => page.name == window.localStorage.currentPage).height || 640, // later remove the || 640
 	    });
     }
 
@@ -39,7 +39,7 @@ class Page extends React.Component {
 			<Form {...this.formItemLayout}>
 		        <Form.Item label="height">
 		          {getFieldDecorator('height', {
-		          	initialValue: JSON.parse(window.localStorage.currentSelection).height || 640, 
+		          	initialValue: JSON.parse(window.localStorage.pages).find(page => page.name == window.localStorage.currentPage).height || 640, 
 		            rules: [
 		              /*{
 		                type: 'email',
@@ -61,13 +61,11 @@ const PageSidebar = Form.create({ name: 'register' })(Page);
 
 class PageActions {
 	static setHeight(value, shapeRef) {
-		// alert(JSON.stringify(e))
-		// const selected = JSON.parse(window.localStorage.currentSelection).id;
-
 		shapeRef.setHeight(value);
-		// alert('Setting height');
-		console.dir(shapeRef);
-		// shapeRef.
+		
+		let temp = JSON.parse(window.localStorage.pages)
+		temp.find(page => page.name == window.localStorage.currentPage).height = value;
+		window.localStorage.pages = JSON.stringify(temp);
 	}
 }
 

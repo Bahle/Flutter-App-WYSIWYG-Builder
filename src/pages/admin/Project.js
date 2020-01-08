@@ -11,10 +11,9 @@ import { Widget, ContainerType } from '../../enums';
 // import RaisedButtonActions from '../../components/Sidebar/Button/fuck'
 
 import { RaisedButtonSidebar, RaisedButtonActions } from '../../components/Sidebar/Button/RaisedButton'
-// import { TextForm, Fuck, Obj, TextActions } from '../../components/Sidebar/Text/index'
-// import TextActions from '../../components/Sidebar/Text/Actions'
-
+import { TextSidebar, TextActions } from '../../components/Sidebar/Text'
 import { PageSidebar, PageActions } from '../../components/Sidebar/Page'
+
 import ProjectSidebar from '../../components/Sidebar/Project'
 
 import {observable} from "mobx"
@@ -169,7 +168,7 @@ class Home extends Component {
   ];
   
   stageRef = null;
-  shapeRef = null;
+  // shapeRef = null;
 
   /*self = this
 
@@ -185,7 +184,7 @@ class Home extends Component {
   // tabs:
   // if this fucking thing was put in the render method as is every tiny change on the page would trigger a re-render
   fuckfuck = this.state.tabs.pages.map(page => (
-                    <Page title={page.name} type={page.type} styling={NewContainerStyle} key={page.key} ref={shape => this.shape = shape}>
+                    <Page title={page.name} type={page.type} styling={NewContainerStyle} key={page.key} ref={page => this.pageRef = page}>
                       <Stage ref={(stage) => this.stageRef = stage} key={page.name} id={page.name} />
                     </Page>)
                   )
@@ -232,8 +231,8 @@ class Home extends Component {
 
     this.setState({tabs})
     this.fuckfuck = this.state.tabs.pages.map(page => {
-      return (<Page title={page.name} type={page.type} styling={NewContainerStyle} id={page.id} key={page.id}>
-        <Stage ref={(stage) => this.stageRef = stage} key={page.name} id={page.name} />
+      return (<Page title={page.name} type={page.type} styling={NewContainerStyle} id={page.id} key={page.id} ref={page => this.pageRef = page}>
+        <Stage ref={(stage) => {alert('stageRef'); this.stageRef = stage}} key={page.name} id={page.name} />
       </Page>
       )}
     )
@@ -290,9 +289,9 @@ class Home extends Component {
     return (
       <DashboardLayout title='Project Name' extra={(<div>
           <Radio.Group value={this.state.tool} onChange={this.handleToolChange} style={{marginRight: '730px'}}>
-            <Radio.Button value="text">T</Radio.Button>
+            {/*<Radio.Button value="text">T</Radio.Button>*/}
             <Radio.Button value="rectangle"><Icon type="border" /></Radio.Button>
-            <Radio.Button value="circle"><Icon type="loading-3-quarters" /></Radio.Button>
+            {/*<Radio.Button value="circle"><Icon type="loading-3-quarters" /></Radio.Button>*/}
           </Radio.Group>
 
           <Button.Group>
@@ -308,12 +307,16 @@ class Home extends Component {
               const $target = $(e.target)
               
               if( $target.closest('.widget').length > 0 ) {
-                // this.setState({sidebar: 'RaisedButton'});
-                let shouldUpdate = this.sidebar == 'RaisedButton';
-                this.sidebar = 'RaisedButton';
-                // if(shouldUpdate) this.forceUpdate();
-                if(this.RaisedButtonSidebarRef) {
-                  this.RaisedButtonSidebarRef.refreshProps();
+                if(JSON.parse(window.localStorage.currentSelection).type == Widget.Text) {
+                  this.sidebar = 'Text';
+                  if(this.TextSidebarRef) {
+                    this.TextSidebarRef.refreshProps();
+                  }
+                } else {
+                  this.sidebar = 'RaisedButton';
+                  if(this.RaisedButtonSidebarRef) {
+                    this.RaisedButtonSidebarRef.refreshProps();
+                  }
                 }
 
                 this.enabledDeletePage = true;
@@ -326,6 +329,8 @@ class Home extends Component {
                 this.sidebar = 'Project';
                 this.enabledDeletePage = false;
               }
+
+              // alert()
             }).bind(this)}
             md={19} style={{paddingLeft:'12px', paddingRight:'12px', textAlign:'center', display:'flex', justifyContent: 'center'}}>
               <div className="widget-tab">
@@ -366,8 +371,9 @@ class Home extends Component {
               {
                 (function() {
                   switch(this.sidebar) {
-                    case 'RaisedButton': return <RaisedButtonSidebar wrappedComponentRef={self => this.RaisedButtonSidebarRef = self } setText={(function(e) { RaisedButtonActions.setText(e, this.stageRef) /*console.dir(e.target.value)*/ }).bind(this)} />; break;
-                    case 'Page': return <PageSidebar setHeight={(function(e) { PageActions.setHeight(e, this.shape) }).bind(this)}/>; break;
+                    case 'RaisedButton': return <RaisedButtonSidebar wrappedComponentRef={self => this.RaisedButtonSidebarRef = self } setText={(function(e) { RaisedButtonActions.setText(e, this.pageRef.getStageRef()) /*console.dir(e.target.value)*/ }).bind(this)} />; break;
+                    case 'Text': return <TextSidebar wrappedComponentRef={self => this.TextSidebarRef = self } setText={(function(e) { TextActions.setText(e, this.pageRef.getStageRef()) /*console.dir(e.target.value)*/ }).bind(this)} />; break;
+                    case 'Page': return <PageSidebar setHeight={(function(e) { PageActions.setHeight(e, this.pageRef) }).bind(this)}/>; break;
                     case 'Project': return <ProjectSidebar  />; break;
                     default: return <div>No item selected</div>
                   }

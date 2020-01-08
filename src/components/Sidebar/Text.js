@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Input } from 'antd';
-// import { observer, inject } from 'mobx-react'
 
-// @inject('toolDomainStore')
 class Text extends React.Component {
 	constructor(props) {
 		super(props);
@@ -19,9 +17,10 @@ class Text extends React.Component {
       },
     };
 
-    handleChange(e) {
-    	// console.dir(e.target.value);
-    	// this.props.toolDomainStore.setText(e.target.value)
+    refreshProps() {
+    	this.props.form.setFieldsValue({
+	      text: JSON.parse(window.localStorage.currentSelection).widgetProps.text,
+	    });
     }
 
     render() {
@@ -31,6 +30,7 @@ class Text extends React.Component {
 			<Form {...this.formItemLayout}>
 		        <Form.Item label="Text">
 		          {getFieldDecorator('text', {
+		          	initialValue: JSON.parse(window.localStorage.currentSelection).widgetProps.text, 
 		            rules: [
 		              /*{
 		                type: 'email',
@@ -38,44 +38,26 @@ class Text extends React.Component {
 		              },*/
 		              {
 		                required: true,
-		                message: 'Please input the button text',
+		                message: 'Please input the text',
 		              },
 		            ],
-		          })(<Input onChange={this.props.setText} />)} {/* this.handleChange.bind(this) */}
+		          })(<Input ref={fuck => this.fuck = fuck} onChange={this.props.setText} />)}
 		        </Form.Item>
 		    </Form>
 		)
 	}
 }
 
-/*const TextActions = {
-	setText: function(e) {
-		const selected = JSON.parse(window.localStorage.currentSelection).id;
-		this.stageRef.setText(e.target.value);
-	}
-}*/
+const TextSidebar = Form.create({ name: 'register' })(Text);
 
- const TextForm = Form.create({ name: 'register' })(Text);
-
-class Fuck {
-	static hello() {
-		alert('hello world');
-	}
-}	
-
-const Obj = {
-	func: function() { alert('Got the func'); }
-}
-
-const TextActions = {
-	setText: function(e, stageRef) {
+class TextActions {
+	static setText(e, stageRef) {
 		const selected = JSON.parse(window.localStorage.currentSelection).id;
 		stageRef.setText(e.target.value);
-	}//,
-	// shit: function() { alert('fuck') }
+	}
 }
 
 export {
-	TextForm, Fuck, Obj, TextActions
+	TextSidebar, TextActions 
 };
 

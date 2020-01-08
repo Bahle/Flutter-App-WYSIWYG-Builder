@@ -23,6 +23,7 @@
     "react-konva": "^16.10.1-0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.0",
+    "react-upload-gallery": "0.0.4",
     "uuid": "^3.3.3"
   },
   "plugins": [

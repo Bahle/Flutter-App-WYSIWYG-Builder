@@ -36,10 +36,13 @@ class Stage extends React.Component {
 	constructor(props) {
 		super(props)
 
+		/*alert(this.props.id)
+		alert(JSON.parse(window.localStorage.pages).find(page => page.name == this.props.id).height);*/
+
 		this.state = {
 			shapes: loadGlobalShapes(this.props.id, 'start') || [],
 			good: null,
-			height: '640px'
+			height: JSON.parse(window.localStorage.pages).find(page => page.name == this.props.id).height
 		};
 
 		this.sam = {};
@@ -187,8 +190,9 @@ class Stage extends React.Component {
 
 		return (
 			<div onKeyDown={this.handleOnKeyDown} id={this.props.id} style={{width: '360px', height: this.state.height, border: 'solid 2px black'}} onMouseDown={e => {
-				// alert(window.localStorage.getItem('currentTool'));
-				if(window.localStorage.getItem('currentTool') != 'rectangle') return;
+				const currentTool = window.localStorage.getItem('currentTool');
+				console.log('currentTool: ' + currentTool); return;
+				if( currentTool === null || currentTool === undefined ) return;
 				//! took me some time to figure out
 				// in ResizeDemo when store updated props in localStorage the one here are not updated
 				// hence update the props from localStorage
@@ -208,7 +212,7 @@ class Stage extends React.Component {
 				if(!offset) return; //? eish
 				
 				if($(target).parents('.widget').length == 0 && !$(target).is('.widget')) {
-					let newShapes = [...fuck, {width:50, height:50, x: e.pageX - offset.left, y: e.pageY - offset.top, key: uuid, id: uuid, type: Widget.Empty, stageId: this.props.id}];
+					let newShapes = [...fuck, {width:50, height:50, x: e.pageX - offset.left, y: e.pageY - offset.top, key: uuid, id: uuid, type: Widget.Text, stageId: this.props.id}]; // currentTool == 'text' ? Widget.Text : Widget.Empty
 					// setShapes(newShapes); // later also type property
 					this.setState({shapes: newShapes})
 					setGlobalShapesByStage(this.props.id, newShapes);
