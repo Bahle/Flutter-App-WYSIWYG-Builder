@@ -11,6 +11,7 @@ import { Widget, ContainerType } from '../../enums';
 // import RaisedButtonActions from '../../components/Sidebar/Button/fuck'
 
 import { RaisedButtonSidebar, RaisedButtonActions } from '../../components/Sidebar/Button/RaisedButton'
+import { ImageSidebar, ImageActions } from '../../components/Sidebar/Button/Image'
 import { TextSidebar, TextActions } from '../../components/Sidebar/Text'
 import { PageSidebar, PageActions } from '../../components/Sidebar/Page'
 
@@ -371,10 +372,11 @@ class Home extends Component {
               {
                 (function() {
                   switch(this.sidebar) {
+                    case 'Project': return <ProjectSidebar  />; break;
+                    case 'Page': return <PageSidebar setHeight={(function(e) { PageActions.setHeight(e, this.pageRef) }).bind(this)}/>; break;
                     case 'RaisedButton': return <RaisedButtonSidebar wrappedComponentRef={self => this.RaisedButtonSidebarRef = self } setText={(function(e) { RaisedButtonActions.setText(e, this.pageRef.getStageRef()) /*console.dir(e.target.value)*/ }).bind(this)} />; break;
                     case 'Text': return <TextSidebar wrappedComponentRef={self => this.TextSidebarRef = self } setText={(function(e) { TextActions.setText(e, this.pageRef.getStageRef()) /*console.dir(e.target.value)*/ }).bind(this)} />; break;
-                    case 'Page': return <PageSidebar setHeight={(function(e) { PageActions.setHeight(e, this.pageRef) }).bind(this)}/>; break;
-                    case 'Project': return <ProjectSidebar  />; break;
+                    case 'Image': return <ImageSidebar wrappedComponentRef={self => this.ImageSidebarRef = self } setImage={(function(e) { ImageActions.setImage(e, this.pageRef.getStageRef()) /*console.dir(e.target.value)*/ }).bind(this)} />; break;
                     default: return <div>No item selected</div>
                   }
 
