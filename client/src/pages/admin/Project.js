@@ -11,7 +11,7 @@ import { Widget, ContainerType } from '../../enums';
 // import RaisedButtonActions from '../../components/Sidebar/Button/fuck'
 
 import { RaisedButtonSidebar, RaisedButtonActions } from '../../components/Sidebar/Button/RaisedButton'
-import { ImageSidebar, ImageActions } from '../../components/Sidebar/Button/Image'
+import { ImageSidebar, ImageActions } from '../../components/Sidebar/Image'
 import { TextSidebar, TextActions } from '../../components/Sidebar/Text'
 import { PageSidebar, PageActions } from '../../components/Sidebar/Page'
 
@@ -308,15 +308,21 @@ class Home extends Component {
               const $target = $(e.target)
               
               if( $target.closest('.widget').length > 0 ) {
-                if(JSON.parse(window.localStorage.currentSelection).type == Widget.Text) {
+                const type = JSON.parse(window.localStorage.currentSelection).type;
+                if(type == Widget.Text) {
                   this.sidebar = 'Text';
                   if(this.TextSidebarRef) {
                     this.TextSidebarRef.refreshProps();
                   }
-                } else {
+                } else if(type == Widget.RaisedButton) {
                   this.sidebar = 'RaisedButton';
                   if(this.RaisedButtonSidebarRef) {
                     this.RaisedButtonSidebarRef.refreshProps();
+                  }
+                } else if(type == Widget.Image) {
+                  this.sidebar = 'Image';
+                  if(this.ImageSidebarRef) {
+                    this.ImageSidebarRef.refreshProps();
                   }
                 }
 

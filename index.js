@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var multer  = require('multer');
 // var upload = multer({ dest: 'uploads/' });
 const path = require('path');
+const fs = require('fs');
 
 var app = express();
 
@@ -19,10 +20,11 @@ app.use(function(req, res, next) {
 });
 
 app.use(express.static(path.resolve(__dirname, './client/build')));
+app.use(express.static(path.resolve(__dirname, './client/public')));
 
 var storage = multer.diskStorage({ //multers disk storage settings
     destination: function (req, file, cb) {
-        cb(null, './uploads/')
+        cb(null, './client/public/')
     },
     filename: function (req, file, cb) {
         var datetimestamp = Date.now();
@@ -33,7 +35,7 @@ var storage = multer.diskStorage({ //multers disk storage settings
 var upload = multer({ //multer settings
     storage: storage,
     fileFilter : function(req, file, callback) { //file filter
-        if (['xls', 'xlsx'].indexOf(file.originalname.split('.')[file.originalname.split('.').length-1]) === -1) {
+        if (['png', 'jpg', 'gif', 'jpeg', 'bmp'].indexOf(file.originalname.split('.')[file.originalname.split('.').length-1].toLowerCase()) === -1) {
             return callback(new Error('Wrong extension type'));
         }
         callback(null, true);
@@ -48,41 +50,69 @@ app.get('/testing', function(req, res) {
 
 
 app.post('/images', function(req, res) {
-	const project = req.body.project;
+	// console.log('POSTOSOSOSOS')
+	// console.log(JSON.stringify(req.headers));
+	const project = req.header('project');
+	console.log('project is ' + project)
+
+	let result = {};
+
+	const topRes = res;
 
 	upload(req, res, function(err){
 	    if(err) {
-	         res.json({ error: err });
+	         // result = err;
+	         console.log(err)
+	         topRes.json({ error: err });
 	         return;
 	    }
 	    
-	    /** Multer gives us file info in req.file object */
+	    /// ulter gives us file info in req.file object
 	    if(!req.file) {
-	        res.json({ error: "No file passed" });
+	        // result = err;
+	        console.log(err);
+	        topRes.json({ error: "No file passed" });
 	        return;
 	    }
 
-	    fs.rename('./uploads/' + req.file.fileName, '../uploads/' + project + '/' + '/' + fileName, function (err) {
+	    console.log(JSON.stringify(req.file.filename))
+
+	    if (!fs.existsSync('./client/public/' + project)){
+		    fs.mkdirSync('./client/public/' + project);
+		}
+
+	    fs.rename('./client/public/' + req.file.filename, './client/public/' + project + '/' + req.file.filename, function (err) {
             if (err) {
-                res.json({ error: err });
+                console.log(err);
+                topRes.json({ error: err });
+                // result = err;
+                return;
             }
 
-            res.json({results: 'success'});
+            // result 
+            result.name = req.file.originalname,
+            result.source = project + '/' + req.file.filename
+
+            topRes.json({
+				name: req.file.originalname,
+				source: '/' + project + '/' + req.file.filename
+			})
         });
 	})
 
-	res.json({result: 'success'})
+	// res.json({result: 'nada'})
 });
 
 app.get('/images', function(req, res) {
+	// console.log('GETGETEGFDGDSGDDFG')
 	const project = req.query.project;
 
-	const folder = `./images/${project}`;
+	const folder = `./client/public/${project}`;
 	const fs = require('fs');
 
 	let files = [];
 	fs.readdirSync(folder).forEach(file => {
-	  files.push(file);
+	  files.push({name: file.split('/')[file.split('/').length-1], source: '/' + project + '/' + file});
 	});
 
 	res.json({result: files})

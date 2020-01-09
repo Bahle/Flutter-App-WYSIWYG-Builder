@@ -56,7 +56,7 @@ class ResizeDemo extends React.Component {
 
   helloWorld = () => {
     alert('helloWorld')
-    let newProps = {...this.state.coordinate, widgetProps: 'Yah neh'};
+    let newProps = {...this.state.coordinate, widgetProps: 'helloWorld'};
     // setCoordinate(newProps) // why not persisting type???
     this.setState({coordinate: newProps});
     
@@ -117,7 +117,7 @@ class ResizeDemo extends React.Component {
                     key: this.state.coordinate.id,
                     type: JSON.parse(window.localStorage.currentSelection).type,
                     isFocused: this.state.coordinate.isFocused,
-                    widgetProps: {text: this.state.coordinate.widgetProps} // <- start here by making sure widgetProps is object not text,
+                    widgetProps: this.state.coordinate.widgetProps // <- start here by making sure widgetProps is object not text,
                     // isFocused: true <- start from here
                   }
 
@@ -189,7 +189,7 @@ class ResizeDemo extends React.Component {
                   key: this.state.coordinate.id,
                   type: JSON.parse(window.localStorage.currentSelection).type,
                   isFocused: this.state.coordinate.isFocused,
-                  widgetProps: {text: this.state.coordinate.widgetProps} // <- start here by making sure widgetProps is object not text,
+                  widgetProps: this.state.coordinate.widgetProps // <- start here by making sure widgetProps is object not text,
                   // isFocused: true
                 }
                 // console.log('Fucking results: ' + JSON.stringify(result))

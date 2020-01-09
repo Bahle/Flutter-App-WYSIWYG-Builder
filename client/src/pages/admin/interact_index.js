@@ -106,7 +106,7 @@ class Stage extends React.Component {
 
 	setText(text) {
 		const componentId = JSON.parse(window.localStorage.currentSelection).id;
-		this.sam[componentId].setText(text);	
+		this.sam[componentId] && this.sam[componentId].setText(text);	
 	}
 
 	setHeight(value) {
@@ -191,7 +191,6 @@ class Stage extends React.Component {
 		return (
 			<div onKeyDown={this.handleOnKeyDown} id={this.props.id} style={{width: '360px', height: this.state.height, border: 'solid 2px black'}} onMouseDown={e => {
 				const currentTool = window.localStorage.getItem('currentTool');
-				console.log('currentTool: ' + currentTool); return;
 				if( currentTool === null || currentTool === undefined ) return;
 				//! took me some time to figure out
 				// in ResizeDemo when store updated props in localStorage the one here are not updated

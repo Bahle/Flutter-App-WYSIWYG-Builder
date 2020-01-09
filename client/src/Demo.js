@@ -4,11 +4,13 @@ import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
+import ImageIcon from '@material-ui/icons/Image';
 import { Widget } from './enums';
 import CropOriginalIcon from '@material-ui/icons/CropOriginal';
 import { setGlobalShapesByShape } from './GlobalState';
 
 const fillStyle = {width: '100%', height: '100%'};
+const borderedContainerStyle = {display:'flex', justifyContent:'center', alignItems:'center', border: 'dashed 2px silver'}
 
 const Demo = (props/*: DemoProps*/) => {
   const { getRef, id, key, type, x, y, angle, width, height, externalSetFocus, isFocused, stageId, widgetProps = {} } = props // focused should be inherited from parent general widget
@@ -73,12 +75,12 @@ const Demo = (props/*: DemoProps*/) => {
         (() => {
           // if(false) return <div>Look at me</div>; else return <div>Check me out</div>
           switch(type) {
-            case Widget.Empty: return <div tabIndex={id} key={id} style={{...fillStyle, display:'flex', justifyContent:'center', alignItems:'center', border: 'dashed 2px silver'}}>...</div>; break;
+            case Widget.Empty: return <div tabIndex={id} key={id} style={{...fillStyle, ...borderedContainerStyle}}>...</div>; break;
             case Widget.RaisedButton: return <Button variant="contained" style={fillStyle}>{ widgetProps.text || 'Default' } </Button>; break;
             case Widget.FlatButton: return <Button style={fillStyle}>Default</Button>; break;
             case Widget.OutlineButton: return <Button variant="outlined" style={fillStyle}>Default</Button>; break;
-            case Widget.Image: return <Button variant="outlined" style={fillStyle}>Default</Button>; break;
-            case Widget.Text: return <Typography tabIndex={id} style={{...fillStyle, display:'flex', justifyContent:'center', alignItems:'center', border: 'dashed 2px silver'}}>{ widgetProps.text || '...' }</Typography>; break;
+            case Widget.Image: return <div style={{...fillStyle, ...borderedContainerStyle}}><ImageIcon color="action" /></div>; break;
+            case Widget.Text: return <Typography tabIndex={id} style={{...fillStyle, ...borderedContainerStyle}}>{ widgetProps.text || '...' }</Typography>; break;
             default: return <Box component="chip" m={1}>Could not find widget</Box>;
           }
         })()
