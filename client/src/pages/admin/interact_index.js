@@ -113,6 +113,26 @@ class Stage extends React.Component {
 		this.setState({height: value + 'px'})
 	}
 
+	setImage(value) {
+		const componentId = JSON.parse(window.localStorage.currentSelection).id;
+		this.sam[componentId] && this.sam[componentId].setImage(value);	
+	}
+
+	setStretchMode(value) {
+		const componentId = JSON.parse(window.localStorage.currentSelection).id;
+		this.sam[componentId] && this.sam[componentId].setStretchMode(value);	
+	}
+
+	setType(value) {
+		const componentId = JSON.parse(window.localStorage.currentSelection).id;
+		this.sam[componentId] && this.sam[componentId].setType(value);	
+	}
+
+	setColor(value) {
+		const componentId = JSON.parse(window.localStorage.currentSelection).id;
+		this.sam[componentId] && this.sam[componentId].setColor(value);	
+	}
+
 	handleOnKeyDown = (e) => {
 		e.preventDefault();
 
@@ -190,8 +210,8 @@ class Stage extends React.Component {
 
 		return (
 			<div onKeyDown={this.handleOnKeyDown} id={this.props.id} style={{width: '360px', height: this.state.height, border: 'solid 2px black'}} onMouseDown={e => {
-				const currentTool = window.localStorage.getItem('currentTool');
-				if( currentTool === null || currentTool === undefined ) return;
+				const currentTool = JSON.parse(window.localStorage.getItem('currentTool'));
+				if(!currentTool) return;
 				//! took me some time to figure out
 				// in ResizeDemo when store updated props in localStorage the one here are not updated
 				// hence update the props from localStorage

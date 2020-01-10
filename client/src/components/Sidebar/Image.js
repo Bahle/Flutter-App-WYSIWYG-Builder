@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Form, Input } from 'antd';
+import { Form, Input, Select } from 'antd';
 import ImageDialog from './ImageDialog'
+
+const { Option } = Select;
 
 class Image extends React.Component {
 	constructor(props) {
@@ -19,46 +21,66 @@ class Image extends React.Component {
     };
 
     refreshProps() {
+    	const { source, stretchMode } = JSON.parse(window.localStorage.currentSelection).widgetProps;
+
     	this.props.form.setFieldsValue({
-	      text: JSON.parse(window.localStorage.currentSelection).widgetProps.text,
+	      source,
+	      stretchMode,
 	    });
     }
 
     componentDidMount() {
-    	this.fuck.input.setAttribute('readonly', 'readonly')
+    	this.source.input.setAttribute('readonly', 'readonly')
     }
 
     getImage(value) {
     	// alert('getImage: ' + value)
-    	// console.dir(this.fuck)
-    	this.fuck.input.value = value;
+    	// console.dir(this.source)
+    	this.source.input.value = value;
 
     	this.props.setImage(value)
+    }
+
+    handleSelectStretchMode(value) {
+    	alert(value)
+
     }
 
     render() {
 	    const { getFieldDecorator } = this.props.form;
 
 		return(
-			<ImageDialog>
-				<Form getImage={this.getImage.bind(this)} {...this.formItemLayout}>
-			        <Form.Item label="Image" style={{cursor: 'pointer'}}>
-			          {getFieldDecorator('text', {
-			          	initialValue: JSON.parse(window.localStorage.currentSelection).widgetProps.text, 
+			<Form {...this.formItemLayout}>
+		        <ImageDialog>
+			        <Form.Item getImage={this.getImage.bind(this)} label="Source" style={{cursor: 'pointer'}}>
+			          {getFieldDecorator('source', {
+			          	initialValue: JSON.parse(window.localStorage.currentSelection).widgetProps.image, 
 			            rules: [
-			              /*{
-			                type: 'email',
-			                message: 'The input is not valid E-mail!',
-			              },*/
 			              {
 			                required: true,
-			                message: 'Please input the text',
+			                message: 'Please input the source',
 			              },
 			            ],
-			          })(<Input addonBefore="Choose file" placeholder='Click to select file' ref={fuck => this.fuck = fuck} />)}
+			          })(<Input addonBefore="Choose file" placeholder='Click to select file' ref={input => this.source = input} />)}
 			        </Form.Item>
-			    </Form>
-			</ImageDialog>
+		        </ImageDialog>
+
+		        <Form.Item label="Stretch mode" style={{cursor: 'pointer'}}>
+		        	{getFieldDecorator('stretchMode', {
+		          	initialValue: JSON.parse(window.localStorage.currentSelection).widgetProps.stretchMode || 'Stretch', 
+		            rules: [
+		              {
+		                required: true,
+		                message: 'Please input the stretch mode',
+		              },
+		            ],
+		          })(<Select defaultValue="Stretch" onChange={this.props.setStretchMode}>
+				      <Option value="Stretch">Stretch</Option>
+				      <Option value="Cover">Cover</Option>
+				      <Option value="Contain">Contain</Option>
+				    </Select>)}
+		        </Form.Item>
+		    </Form>
 		)
 	}
 }
@@ -67,8 +89,12 @@ const ImageSidebar = Form.create({ name: 'register' })(Image);
 
 class ImageActions {
 	static setImage(value, stageRef) {
-		alert('Change image: ' + value)
-		// console.dir(stageRef)
+		// alert('Change image: ' + value)
+		stageRef.setImage(value);
+	}
+
+	static setStretchMode(value, stageRef) {
+		stageRef.setStretchMode(value);
 	}
 }
 

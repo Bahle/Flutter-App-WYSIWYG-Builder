@@ -21,7 +21,7 @@ class ResizeDemo extends React.Component {
   constructor(props) {
     super(props);
 
-    const {id, stageId, type, x, y, width, height, key, widgetProps, isFocused = false} = this.props;
+    const {id, stageId, type, x, y, width, height, key, widgetProps = {}, isFocused = false} = this.props;
 
     this.state = {
       coordinate: { x: x || 0, y: y || 0, width: width || 30, height: height || 30, isFocused, id, type, stageId, key: id, widgetProps },
@@ -54,6 +54,8 @@ class ResizeDemo extends React.Component {
     // dataItem = data.item;
   }
 
+  // for testing purposes
+  // delete later
   helloWorld = () => {
     alert('helloWorld')
     let newProps = {...this.state.coordinate, widgetProps: 'helloWorld'};
@@ -64,10 +66,33 @@ class ResizeDemo extends React.Component {
   }
 
   setText = text => {
-    // alert('setting text: ' + text);
-    const newProps = {...this.state.coordinate, widgetProps: {text}};
+    const newProps = {...this.state.coordinate, widgetProps: {...this.state.coordinate.widgetProps, text}};
     this.setState({coordinate: newProps});
     setGlobalShapesByShape(newProps);
+  }
+
+  setImage = value => {
+    const newProps = {...this.state.coordinate, widgetProps: {...this.state.coordinate.widgetProps, image: value}};
+    this.setState({coordinate: newProps});
+    setGlobalShapesByShape(newProps); 
+  }
+
+  setStretchMode = value => {
+    const newProps = {...this.state.coordinate, widgetProps: {...this.state.coordinate.widgetProps, stretchMode: value}};
+    this.setState({coordinate: newProps});
+    setGlobalShapesByShape(newProps); 
+  }
+
+  setType = value => {
+    const newProps = {...this.state.coordinate, widgetProps: {...this.state.coordinate.widgetProps, type: value}};
+    this.setState({coordinate: newProps});
+    setGlobalShapesByShape(newProps);  
+  }
+
+  setColor = value => {
+    const newProps = {...this.state.coordinate, widgetProps: {...this.state.coordinate.widgetProps, color: value}};
+    this.setState({coordinate: newProps});
+    setGlobalShapesByShape(newProps);  
   }
 
   attributes = {

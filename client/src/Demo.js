@@ -5,12 +5,16 @@ import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import ImageIcon from '@material-ui/icons/Image';
+import { TextField } from '@material-ui/core';
+import PasswordField from './components/PasswordField';
 import { Widget } from './enums';
 import CropOriginalIcon from '@material-ui/icons/CropOriginal';
 import { setGlobalShapesByShape } from './GlobalState';
+import './Demo.css'
 
 const fillStyle = {width: '100%', height: '100%'};
 const borderedContainerStyle = {display:'flex', justifyContent:'center', alignItems:'center', border: 'dashed 2px silver'}
+const imageStyle = {width: '100%', height: '100%'}
 
 const Demo = (props/*: DemoProps*/) => {
   const { getRef, id, key, type, x, y, angle, width, height, externalSetFocus, isFocused, stageId, widgetProps = {} } = props // focused should be inherited from parent general widget
@@ -79,8 +83,18 @@ const Demo = (props/*: DemoProps*/) => {
             case Widget.RaisedButton: return <Button variant="contained" style={fillStyle}>{ widgetProps.text || 'Default' } </Button>; break;
             case Widget.FlatButton: return <Button style={fillStyle}>Default</Button>; break;
             case Widget.OutlineButton: return <Button variant="outlined" style={fillStyle}>Default</Button>; break;
-            case Widget.Image: return <div style={{...fillStyle, ...borderedContainerStyle}}><ImageIcon color="action" /></div>; break;
+            case Widget.Image: return <div style={{...fillStyle, ...borderedContainerStyle}}>
+              {
+                widgetProps.image ? (!widgetProps.stretchMode || widgetProps.stretchMode == 'Stretch' ? <img src={widgetProps.image} style={imageStyle} /> : <div style={{...imageStyle, backgroundImage: `url(${widgetProps.image})`, backgroundSize: widgetProps.stretchMode}}></div>) : <ImageIcon color="action" />
+              }
+              </div>;
+            break;
             case Widget.Text: return <Typography tabIndex={id} style={{...fillStyle, ...borderedContainerStyle}}>{ widgetProps.text || '...' }</Typography>; break;
+            case Widget.TextField: {
+              // dat, number and time lia sokolisa hence generalized them
+              if(!widgetProps.type || widgetProps.type != 'Password') { return <TextField label="Standard" value={widgetProps.text} style={{...fillStyle, ...borderedContainerStyle}} InputProps={{readOnly: true}} />; break; }
+              if(widgetProps.type == 'Password') { return <div style={{...borderedContainerStyle, display: 'block', ...fillStyle}}><PasswordField label="Standard" value={widgetProps.text} /></div>; break; }
+            }
             default: return <Box component="chip" m={1}>Could not find widget</Box>;
           }
         })()

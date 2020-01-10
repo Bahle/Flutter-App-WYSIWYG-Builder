@@ -41,7 +41,7 @@ class Text extends React.Component {
 		                message: 'Please input the text',
 		              },
 		            ],
-		          })(<Input ref={fuck => this.fuck = fuck} onChange={this.props.setText} />)}
+		          })(<Input onChange={this.props.setText} />)}
 		        </Form.Item>
 		    </Form>
 		)
@@ -52,7 +52,7 @@ const TextSidebar = Form.create({ name: 'register' })(Text);
 
 class TextActions {
 	static setText(e, stageRef) {
-		const selected = JSON.parse(window.localStorage.currentSelection).id;
+		// const selected = JSON.parse(window.localStorage.currentSelection).id;
 		stageRef.setText(e.target.value);
 	}
 }

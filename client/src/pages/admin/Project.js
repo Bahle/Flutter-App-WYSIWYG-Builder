@@ -14,6 +14,7 @@ import { RaisedButtonSidebar, RaisedButtonActions } from '../../components/Sideb
 import { ImageSidebar, ImageActions } from '../../components/Sidebar/Image'
 import { TextSidebar, TextActions } from '../../components/Sidebar/Text'
 import { PageSidebar, PageActions } from '../../components/Sidebar/Page'
+import { TextFieldSidebar, TextFieldActions } from '../../components/Sidebar/TextField'
 
 import ProjectSidebar from '../../components/Sidebar/Project'
 
@@ -324,6 +325,11 @@ class Home extends Component {
                   if(this.ImageSidebarRef) {
                     this.ImageSidebarRef.refreshProps();
                   }
+                } else if(type == Widget.TextField) {
+                  this.sidebar = 'TextField';
+                  if(this.TextFieldSidebarRef) {
+                    this.TextFieldSidebarRef.refreshProps();
+                  }
                 }
 
                 this.enabledDeletePage = true;
@@ -380,9 +386,12 @@ class Home extends Component {
                   switch(this.sidebar) {
                     case 'Project': return <ProjectSidebar  />; break;
                     case 'Page': return <PageSidebar setHeight={(function(e) { PageActions.setHeight(e, this.pageRef) }).bind(this)}/>; break;
-                    case 'RaisedButton': return <RaisedButtonSidebar wrappedComponentRef={self => this.RaisedButtonSidebarRef = self } setText={(function(e) { RaisedButtonActions.setText(e, this.pageRef.getStageRef()) /*console.dir(e.target.value)*/ }).bind(this)} />; break;
-                    case 'Text': return <TextSidebar wrappedComponentRef={self => this.TextSidebarRef = self } setText={(function(e) { TextActions.setText(e, this.pageRef.getStageRef()) /*console.dir(e.target.value)*/ }).bind(this)} />; break;
-                    case 'Image': return <ImageSidebar wrappedComponentRef={self => this.ImageSidebarRef = self } setImage={(function(e) { ImageActions.setImage(e, this.pageRef.getStageRef()) /*console.dir(e.target.value)*/ }).bind(this)} />; break;
+                    case 'RaisedButton': return <RaisedButtonSidebar wrappedComponentRef={self => this.RaisedButtonSidebarRef = self } setText={(function(e) { RaisedButtonActions.setText(e, this.pageRef.getStageRef()) }).bind(this)} />; break;
+                    case 'Text': return <TextSidebar wrappedComponentRef={self => this.TextSidebarRef = self } setText={(function(e) { TextActions.setText(e, this.pageRef.getStageRef()) }).bind(this)} />; break;
+                    case 'Image': return <ImageSidebar wrappedComponentRef={self => this.ImageSidebarRef = self } setImage={(function(e) { ImageActions.setImage(e, this.pageRef.getStageRef()) }).bind(this)} 
+                        setStretchMode={(function(e) { ImageActions.setStretchMode(e, this.pageRef.getStageRef()) }).bind(this) } />; break;
+                    case 'TextField': return <TextFieldSidebar wrappedComponentRef={self => this.TextFieldSidebarRef = self } setText={(function(e) { TextFieldActions.setText(e, this.pageRef.getStageRef()) }).bind(this)}
+                        setType={(function(e) { TextFieldActions.setType(e, this.pageRef.getStageRef()) }).bind(this)} setColor={(function(e) { TextFieldActions.setColor(e, this.pageRef.getStageRef()) }).bind(this)} />; break;
                     default: return <div>No item selected</div>
                   }
 
