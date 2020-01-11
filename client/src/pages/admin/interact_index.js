@@ -3,41 +3,21 @@ import { render } from 'react-dom';
 import ResizeDemo from '../../ResizeDemo';
 import { Widget } from '../../enums';
 import { setGlobalShapesByStage, loadGlobalShapes } from '../../GlobalState';
-import {observable} from "mobx"
-import {observer} from "mobx-react"
+import { observable } from "mobx"
+import { observer } from "mobx-react"
+import { actions } from '../../utils.js'
 
 const uuidv1 = require('uuid/v1');
 
 let { useState, createRef } = React;
 
-// window.localStorage.removeItem('currentSelection');
-
 let $ = window.$;
 
 let stageShapes = [];
 
-/*function setGlobalShapes(stageId, shapes) {
-	window.localStorage.setItem('currentSelection', JSON.stringify({ stageId, shapes}));
-}*/
-
-// const Stage = ({id}) => {
-// @observer
 class Stage extends React.Component {
-	// let ids = [uuidv1()];
-
-	// let selectedGuy = null;
-	
-	/*let thatGuy = window.localStorage.currentSelection !== undefined ? JSON.parse(window.localStorage.currentSelection) : {};
-	const [shapes, setShapes] = useState([{width: thatGuy.width || 300, height: thatGuy.height || 200, x: thatGuy.x || 0, y: thatGuy.y || 0, key: ids[0], id: ids[0], type: Widget.RaisedButton, stageId: id}] );*/
-
-	/// const [shapes, setShapes]	  = useState(loadGlobalShapes(id, 'start') || []);
-	/// const [selected, setSelected] = useState(null);
-	
 	constructor(props) {
 		super(props)
-
-		/*alert(this.props.id)
-		alert(JSON.parse(window.localStorage.pages).find(page => page.name == this.props.id).height);*/
 
 		this.state = {
 			shapes: loadGlobalShapes(this.props.id, 'start') || [],
@@ -46,93 +26,20 @@ class Stage extends React.Component {
 		};
 
 		this.sam = {};
+
+		actions.forEach(action => {
+			this[action] = value => {
+				const componentId = JSON.parse(window.localStorage.currentSelection).id;
+				this.sam[componentId] && this.sam[componentId][action](value);
+			}
+		})
 	}
 
-	/*state = {
-		shapes: loadGlobalShapes(this.props.id, 'start') || []
-	};*/
-
-	/*componentDidMount() {
-		this.setState({
-			shapes: loadGlobalShapes(this.props.id, 'start'),
-		})
-
-		this.init = true
-	}*/
-
-	init = false;
-
-	/*shouldComponentUpdate(nextProps, nextState) {
-		alert('this.state: ' + JSON.stringify(this.state));
-		alert('nextState: ' + JSON.stringify(nextState));
-		console.log('state same? ' + nextState == this.state)
-		if(nextState == this.state) return false;
-		console.dir(nextState);
-		console.dir(nextState);
-
-		return true;
-		// return this.init;
-		return this.state != nextState;
-
-	}*/
 	hello(text) {
 		const componentId = JSON.parse(window.localStorage.currentSelection).id;
 
-		/*alert('hello, world')
-		let newShapes = this.state.shapes.map(shape => {
-			console.log('--- look here ---');
-			console.dir(shape);
-			if(componentId == shape.id) {
-				alert('matched: ' + componentId)
-				alert(JSON.stringify(shape.props))
-				// alert(JSON.stringify(this.refs))
-				shape.widgetProps = text;
-				this.refs.find(ref => ref.id == sha)
-
-				// if(shape.widgetProps === undefined) shape.widgetProps = {};
-				// this.refs[shape.id].doIt(text);
-			}
-			
-			return shape;
-		});
-
-		// alert('newShapes is: ' + JSON.stringify(newShapes));
-		this.setState({shapes: newShapes});
-		setGlobalShapesByStage(this.props.id, newShapes);*/
-
-		// console.dir(this.sam);
 		this.sam[componentId].helloWorld();
 	}
-
-	setText(text) {
-		const componentId = JSON.parse(window.localStorage.currentSelection).id;
-		this.sam[componentId] && this.sam[componentId].setText(text);	
-	}
-
-	setHeight(value) {
-		this.setState({height: value + 'px'})
-	}
-
-	setImage(value) {
-		const componentId = JSON.parse(window.localStorage.currentSelection).id;
-		this.sam[componentId] && this.sam[componentId].setImage(value);	
-	}
-
-	setStretchMode(value) {
-		const componentId = JSON.parse(window.localStorage.currentSelection).id;
-		this.sam[componentId] && this.sam[componentId].setStretchMode(value);	
-	}
-
-	setType(value) {
-		const componentId = JSON.parse(window.localStorage.currentSelection).id;
-		this.sam[componentId] && this.sam[componentId].setType(value);	
-	}
-
-	setColor(value) {
-		const componentId = JSON.parse(window.localStorage.currentSelection).id;
-		this.sam[componentId] && this.sam[componentId].setColor(value);	
-	}
-
 	handleOnKeyDown = (e) => {
 		e.preventDefault();
 
@@ -205,9 +112,6 @@ class Stage extends React.Component {
 	fuckRef = React.createRef();*/
 
 	render() {
-		// const good = this.state !== null && this.state.shapes.map(shapeProps => <ResizeDemo {...shapeProps} />);
-		// this.setState({good});
-
 		return (
 			<div onKeyDown={this.handleOnKeyDown} id={this.props.id} style={{width: '360px', height: this.state.height, border: 'solid 2px black'}} onMouseDown={e => {
 				const currentTool = JSON.parse(window.localStorage.getItem('currentTool'));
@@ -223,10 +127,6 @@ class Stage extends React.Component {
 				
 				let uuid = 'a' + uuidv1();
 				
-				// alert($(this).offset())
-				/*console.clear();
-				console.log('click target')
-				console.dir(e.target)*/
 				const offset = $(`#${this.props.id}`).offset(); // `#${id}`
 				if(!offset) return; //? eish
 				

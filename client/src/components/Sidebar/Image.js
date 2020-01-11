@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Input, Select } from 'antd';
 import ImageDialog from './ImageDialog'
+import { initializeAction } from '../../utils.js'
 
 const { Option } = Select;
 
@@ -88,13 +89,8 @@ class Image extends React.Component {
 const ImageSidebar = Form.create({ name: 'register' })(Image);
 
 class ImageActions {
-	static setImage(value, stageRef) {
-		// alert('Change image: ' + value)
-		stageRef.setImage(value);
-	}
-
-	static setStretchMode(value, stageRef) {
-		stageRef.setStretchMode(value);
+	static initialize() {
+		this.actions = initializeAction(['setImage', 'setStretchMode'], this);
 	}
 }
 

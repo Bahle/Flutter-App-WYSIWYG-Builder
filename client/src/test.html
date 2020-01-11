@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<script>
+	function Hello()
+	{
+	    alert("caller is " + arguments.callee.name);
+	}
+
+	Hello()
+
+	class Article {
+	  static publisher = "Ilya Kantor";
+	}
+
+	alert( Article.publisher );
+	</script>
+</body>
+</html>

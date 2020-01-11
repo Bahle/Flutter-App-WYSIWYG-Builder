@@ -1,6 +1,4 @@
 import * as React from 'react';
-// import { storiesOf } from '@storybook/react';
-// import { action } from '@storybook/addon-actions';
 import reactable from 'reactablejs'
 import Demo from './Demo';
 import { render } from 'react-dom';
@@ -11,7 +9,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import interact from 'interactjs';
 import { Widget } from './enums';
 import { setGlobalShapesByShape } from './GlobalState';
-
+import { actions } from './utils'
 
 const Reactable = reactable(Demo);
 
@@ -27,31 +25,23 @@ class ResizeDemo extends React.Component {
       coordinate: { x: x || 0, y: y || 0, width: width || 30, height: height || 30, isFocused, id, type, stageId, key: id, widgetProps },
       focused: false
     }
+
+    actions.forEach(action => {
+      this[action] = value => {
+        const prop = action.slice(3).toLowerCaseFirst()
+        
+        const newProps = {...this.state.coordinate, widgetProps: {...this.state.coordinate.widgetProps, [prop]: value }};
+        this.setState({coordinate: newProps});
+        setGlobalShapesByShape(newProps);
+      }
+    })
   }
-  /*let [offset, setOffset] = React.useState(0);
-  setTimeout(() => {
-  	setOffset(window.$('#' + stageId).offset())
-  }, 1000)*/
-
-  /*const [coordinate, setCoordinate] = React.useState({ x: x || 0, y: y || 0, width: width || 30, height: height || 30, isFocused, id, type, stageId, key: id, widgetProps });
-  const [focused, setFocused] = React.useState(false);*/
-
-	/*let dataItem = null;
-
-  React.useEffect(() => {
-     // console.clear();
-     dataItem = type; 
-  }, type); //Pass Array as second argument*/
-
+  
   handleMenuClick = (event, data) => {
-    // alert('happening: ' + Widget[event.target.innerHTML])
     let newProps = {...this.state.coordinate, type: data.item};
-    // setCoordinate(newProps) // why not persisting type???
     this.setState({coordinate: newProps});
     
     setGlobalShapesByShape(newProps)
-    // setTimeout(() => alert(JSON.stringify(coordinate)), 1000);
-    // dataItem = data.item;
   }
 
   // for testing purposes
@@ -63,36 +53,6 @@ class ResizeDemo extends React.Component {
     this.setState({coordinate: newProps});
     
     setGlobalShapesByShape(newProps)
-  }
-
-  setText = text => {
-    const newProps = {...this.state.coordinate, widgetProps: {...this.state.coordinate.widgetProps, text}};
-    this.setState({coordinate: newProps});
-    setGlobalShapesByShape(newProps);
-  }
-
-  setImage = value => {
-    const newProps = {...this.state.coordinate, widgetProps: {...this.state.coordinate.widgetProps, image: value}};
-    this.setState({coordinate: newProps});
-    setGlobalShapesByShape(newProps); 
-  }
-
-  setStretchMode = value => {
-    const newProps = {...this.state.coordinate, widgetProps: {...this.state.coordinate.widgetProps, stretchMode: value}};
-    this.setState({coordinate: newProps});
-    setGlobalShapesByShape(newProps); 
-  }
-
-  setType = value => {
-    const newProps = {...this.state.coordinate, widgetProps: {...this.state.coordinate.widgetProps, type: value}};
-    this.setState({coordinate: newProps});
-    setGlobalShapesByShape(newProps);  
-  }
-
-  setColor = value => {
-    const newProps = {...this.state.coordinate, widgetProps: {...this.state.coordinate.widgetProps, color: value}};
-    this.setState({coordinate: newProps});
-    setGlobalShapesByShape(newProps);  
   }
 
   attributes = {
@@ -285,6 +245,10 @@ class ResizeDemo extends React.Component {
     );
   }
 };
+
+String.prototype.toLowerCaseFirst = function LowerCaseFirst() {
+  return this[0].toLowerCase() + this.slice(1);
+}
 
 export default ResizeDemo;
 // render(<ResizeDemo />, document.getElementById('root'));

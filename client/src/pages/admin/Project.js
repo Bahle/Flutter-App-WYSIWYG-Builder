@@ -7,15 +7,11 @@ import '../../css/Layout.css';
 import DashboardLayout from '../../layout/DashboardLayout';
 import Stage from './interact_index';
 import { Widget, ContainerType } from '../../enums';
-// import /*{*/ RaisedButtonSidebar /*, RaisedButtonActions }*/ from '../../components/Sidebar/Button/RaisedButton'
-// import RaisedButtonActions from '../../components/Sidebar/Button/fuck'
-
 import { RaisedButtonSidebar, RaisedButtonActions } from '../../components/Sidebar/Button/RaisedButton'
 import { ImageSidebar, ImageActions } from '../../components/Sidebar/Image'
 import { TextSidebar, TextActions } from '../../components/Sidebar/Text'
 import { PageSidebar, PageActions } from '../../components/Sidebar/Page'
 import { TextFieldSidebar, TextFieldActions } from '../../components/Sidebar/TextField'
-
 import ProjectSidebar from '../../components/Sidebar/Project'
 
 import {observable} from "mobx"
@@ -24,11 +20,10 @@ import {observer} from "mobx-react"
 import Page from '../../components/Page';
 import CreatePage from '../../components/CreatePage';
 
-// Fuck.hello()
-// Obj.func()
-// RaisedButtonActions.setText()
-
-// alert('what: ' + JSON.stringify(RaisedButtonActions))
+TextFieldActions.initialize();
+TextActions.initialize();
+RaisedButtonActions.initialize();
+ImageActions.initialize();
 
 const uuidv1 = require('uuid/v4');
 
@@ -58,17 +53,36 @@ class Home extends Component {
   constructor(props) {
     super(props);
 
-    // alert('checking1: ' + JSON.stringify(RaisedButtonActions))
-    // RaisedButtonActions.forEach(action => this[action])
-    // this.RaisedButtonActions = {};
-    // alert('checking2: ' + JSON.stringify(RaisedButtonActions))
+    let self = this;
+    
+    /*['TextField'].forEach(widget => {
+      eval(`${widget}FieldActions`).initialize();
 
-    // for(let action in RaisedButtonActions) {
-    // Object.keys(RaisedButtonActions).forEach(action => {
-      // this['RaisedButtonActions'][action] = RaisedButtonActions[action];
-    // });
+      this[`${widget}SidebarActions`] = {}
+      eval(`${widget}FieldActions`).actions.forEach(action => {
+        self[`${widget}SidebarActions`][action] = (function(e) { eval(`${widget}FieldActions`)[action](e, self.pageRef.getStageRef()) }).bind(self)
+      })
+    })*/
 
-    // alert('this.RaisedButtonActions: ' + JSON.stringify(this.RaisedButtonActions));
+    this.TextFieldSidebarActions = {}
+    TextFieldActions.actions.forEach(action => {
+      self.TextFieldSidebarActions[action] = (function(e) { TextFieldActions[action](e, self.pageRef.getStageRef()) }).bind(self)
+    })
+
+    this.TextSidebarActions = {}
+    TextActions.actions.forEach(action => {
+      self.TextSidebarActions[action] = (function(e) { TextActions[action](e, self.pageRef.getStageRef()) }).bind(self)
+    })
+
+    this.RaisedButtonSidebarActions = {}
+    RaisedButtonActions.actions.forEach(action => {
+      self.RaisedButtonSidebarActions[action] = (function(e) { RaisedButtonActions[action](e, self.pageRef.getStageRef()) }).bind(self)
+    })    
+
+    this.ImageSidebarActions = {}
+    ImageActions.actions.forEach(action => {
+      self.ImageSidebarActions[action] = (function(e) { ImageActions[action](e, self.pageRef.getStageRef()) }).bind(self)
+    })    
   }
 
   state = {
@@ -386,12 +400,10 @@ class Home extends Component {
                   switch(this.sidebar) {
                     case 'Project': return <ProjectSidebar  />; break;
                     case 'Page': return <PageSidebar setHeight={(function(e) { PageActions.setHeight(e, this.pageRef) }).bind(this)}/>; break;
-                    case 'RaisedButton': return <RaisedButtonSidebar wrappedComponentRef={self => this.RaisedButtonSidebarRef = self } setText={(function(e) { RaisedButtonActions.setText(e, this.pageRef.getStageRef()) }).bind(this)} />; break;
-                    case 'Text': return <TextSidebar wrappedComponentRef={self => this.TextSidebarRef = self } setText={(function(e) { TextActions.setText(e, this.pageRef.getStageRef()) }).bind(this)} />; break;
-                    case 'Image': return <ImageSidebar wrappedComponentRef={self => this.ImageSidebarRef = self } setImage={(function(e) { ImageActions.setImage(e, this.pageRef.getStageRef()) }).bind(this)} 
-                        setStretchMode={(function(e) { ImageActions.setStretchMode(e, this.pageRef.getStageRef()) }).bind(this) } />; break;
-                    case 'TextField': return <TextFieldSidebar wrappedComponentRef={self => this.TextFieldSidebarRef = self } setText={(function(e) { TextFieldActions.setText(e, this.pageRef.getStageRef()) }).bind(this)}
-                        setType={(function(e) { TextFieldActions.setType(e, this.pageRef.getStageRef()) }).bind(this)} setColor={(function(e) { TextFieldActions.setColor(e, this.pageRef.getStageRef()) }).bind(this)} />; break;
+                    case 'RaisedButton': return <RaisedButtonSidebar wrappedComponentRef={self => this.RaisedButtonSidebarRef = self } {...this.RaisedButtonSidebarActions } />; break;
+                    case 'Text': return <TextSidebar wrappedComponentRef={self => this.TextSidebarRef = self } {...this.TextSidebarActions } />; break;
+                    case 'Image': return <ImageSidebar wrappedComponentRef={self => this.ImageSidebarRef = self } {...this.ImageSidebarActions} />; break;
+                    case 'TextField': return <TextFieldSidebar wrappedComponentRef={self => this.TextFieldSidebarRef = self } {...this.TextFieldSidebarActions } />; break;
                     default: return <div>No item selected</div>
                   }
 

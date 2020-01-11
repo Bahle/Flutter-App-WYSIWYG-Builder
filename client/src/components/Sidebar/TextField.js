@@ -3,6 +3,7 @@ import { Form, Input, Select, InputNumber, Button } from 'antd';
 import ColorPicker from 'rc-color-picker';
 import 'rc-color-picker/assets/index.css';
 import './TextField.css'
+import { initializeAction } from '../../utils.js'
 
 const { Option } = Select;
 const ButtonGroup = Button.Group;
@@ -30,8 +31,11 @@ class TextField extends React.Component {
     };
 
     refreshProps() {
+    	const { text, label } = JSON.parse(window.localStorage.currentSelection).widgetProps;
+
     	this.props.form.setFieldsValue({
-	      text: JSON.parse(window.localStorage.currentSelection).widgetProps.text,
+	      text,
+	      label
 	    });
     }
 
@@ -65,14 +69,14 @@ class TextField extends React.Component {
 		        </Form.Item>
 		        <Form.Item label="type">
 		          {getFieldDecorator('type', {
-		          	initialValue: JSON.parse(window.localStorage.currentSelection).widgetProps.type, 
+		          	initialValue: JSON.parse(window.localStorage.currentSelection).widgetProps.type || 'Default', 
 		            rules: [
 		              {
 		                required: true,
 		                message: 'Please input the type',
 		              },
 		            ],
-		          })(<Select defaultValue="Default" onChange={this.props.setType}>
+		          })(<Select onChange={this.props.setType}>
 		          	<Option value="Default">Default</Option>
 		          	<Option value="Number">Number</Option>
 		          	<Option value="Email">Email</Option>
@@ -91,6 +95,29 @@ class TextField extends React.Component {
 				    </ButtonGroup>
 				    <ColorPicker color={'#000'} onChange={this.props.setColor} placement="topLeft" />
 		        </div>
+
+		        <Form.Item label="Label">
+		          {getFieldDecorator('label', {
+		          	initialValue: JSON.parse(window.localStorage.currentSelection).widgetProps.label, 
+		            rules: [
+		              {
+		                required: true,
+		                message: 'Please input the label',
+		              },
+		            ],
+		          })(<Input onChange={this.props.setLabel} />)}
+		        </Form.Item>
+		        <Form.Item label="Placeholder">
+		          {getFieldDecorator('placeholder', {
+		          	initialValue: JSON.parse(window.localStorage.currentSelection).widgetProps.placeholder, 
+		            rules: [
+		              {
+		                required: true,
+		                message: 'Please input the placeholder',
+		              },
+		            ],
+		          })(<Input onChange={this.props.setPlaceholder} />)}
+		        </Form.Item>
 		    </Form>
 		)
 	}
@@ -99,16 +126,8 @@ class TextField extends React.Component {
 const TextFieldSidebar = Form.create({ name: 'register' })(TextField);
 
 class TextFieldActions {
-	static setText(e, stageRef) {
-		stageRef.setText(e.target.value);
-	}
-
-	static setType(value, stageRef) {
-		stageRef.setType(value)
-	}
-
-	static setColor(value, stageRef) {
-		stageRef.setColor(value)
+	static initialize() {
+		this.actions = initializeAction(['setText', 'setType', 'setColor', 'setLabel', 'setPlaceholder'], this);
 	}
 }
 

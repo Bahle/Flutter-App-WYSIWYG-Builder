@@ -92,8 +92,8 @@ const Demo = (props/*: DemoProps*/) => {
             case Widget.Text: return <Typography tabIndex={id} style={{...fillStyle, ...borderedContainerStyle}}>{ widgetProps.text || '...' }</Typography>; break;
             case Widget.TextField: {
               // dat, number and time lia sokolisa hence generalized them
-              if(!widgetProps.type || widgetProps.type != 'Password') { return <TextField label="Standard" value={widgetProps.text} style={{...fillStyle, ...borderedContainerStyle}} InputProps={{readOnly: true}} />; break; }
-              if(widgetProps.type == 'Password') { return <div style={{...borderedContainerStyle, display: 'block', ...fillStyle}}><PasswordField label="Standard" value={widgetProps.text} /></div>; break; }
+              if(!widgetProps.type || widgetProps.type != 'Password') { return <TextField placeholder={widgetProps.placeholder || ''} label={widgetProps.label || ''} value={widgetProps.text} style={{...fillStyle, ...borderedContainerStyle}} InputProps={{readOnly: true}} />; break; }
+              if(widgetProps.type == 'Password') { return <div style={{...borderedContainerStyle, display: 'block', ...fillStyle}}><PasswordField placeholder={widgetProps.placeholder || ''} label={widgetProps.label || ''} value={widgetProps.text} /></div>; break; }
             }
             default: return <Box component="chip" m={1}>Could not find widget</Box>;
           }

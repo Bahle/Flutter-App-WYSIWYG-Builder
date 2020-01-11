@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Input } from 'antd';
+import { initializeAction } from '../../../utils.js'
 
 class RaisedButton extends React.Component {
 	constructor(props) {
@@ -51,9 +52,8 @@ class RaisedButton extends React.Component {
 const RaisedButtonSidebar = Form.create({ name: 'register' })(RaisedButton);
 
 class RaisedButtonActions {
-	static setText(e, stageRef) {
-		const selected = JSON.parse(window.localStorage.currentSelection).id;
-		stageRef.setText(e.target.value);
+	static initialize() {
+		this.actions = initializeAction(['setText'], this);
 	}
 }
 
