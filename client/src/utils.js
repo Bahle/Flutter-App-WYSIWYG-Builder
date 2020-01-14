@@ -21,6 +21,6 @@ function initializeAction(actions, self) {
 	return actionNames;
 }
 
-const actions = ['setText','setHeight','setImage','setStretchMode','setType','setColor','setLabel', 'setPlaceholder']
+const actions = ['setText','setHeight','setImage','setStretchMode','setType','setColor','setLabel', 'setPlaceholder', 'setLeadingIcon', 'setTrailingIcon','setTitle', 'setSubtitle', 'setElevation']
 
 export { fieldLabel, pluralize, initializeAction, actions };

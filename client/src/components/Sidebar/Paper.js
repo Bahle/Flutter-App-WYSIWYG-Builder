@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Form, Input } from 'antd';
+import { Form, InputNumber } from 'antd';
 import { initializeAction } from '../../utils.js'
 
-class Text extends React.Component {
+class Paper extends React.Component {
 	constructor(props) {
 		super(props);
 	}
@@ -20,7 +20,7 @@ class Text extends React.Component {
 
     refreshProps() {
     	this.props.form.setFieldsValue({
-	      text: JSON.parse(window.localStorage.currentSelection).widgetProps.text,
+	      elevation: JSON.parse(window.localStorage.currentSelection).widgetProps.elevation,
 	    });
     }
 
@@ -29,31 +29,31 @@ class Text extends React.Component {
 
 		return(
 			<Form {...this.formItemLayout}>
-		        <Form.Item label="Text">
-		          {getFieldDecorator('text', {
-		          	initialValue: JSON.parse(window.localStorage.currentSelection).widgetProps.text, 
+		        <Form.Item label="Elevation">
+		          {getFieldDecorator('elevation', {
+		          	initialValue: JSON.parse(window.localStorage.currentSelection).widgetProps.elevation, 
 		            rules: [
 		              {
 		                required: true,
-		                message: 'Please input the text',
+		                message: 'Please input the elevation',
 		              },
 		            ],
-		          })(<Input onChange={this.props.setText} />)}
+		          })(<InputNumber step={1} min={0} onChange={this.props.setElevation} />)}
 		        </Form.Item>
 		    </Form>
 		)
 	}
 }
 
-const TextSidebar = Form.create({ name: 'register' })(Text);
+const PaperSidebar = Form.create({ name: 'register' })(Paper);
 
-class TextActions {
+class PaperActions {
 	static initialize() {
-		this.actions = initializeAction(['setText'], this);
+		this.actions = initializeAction(['setElevation'], this);
 	}
 }
 
 export {
-	TextSidebar, TextActions 
+	PaperSidebar, PaperActions 
 };
 

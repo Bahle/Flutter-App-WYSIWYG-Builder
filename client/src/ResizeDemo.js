@@ -208,6 +208,8 @@ class ResizeDemo extends React.Component {
                   <MenuItem onClick={this.handleMenuClick} data={{ item: Widget.Divider }}>Divider</MenuItem>
               </SubMenu>
               <SubMenu title='Containers' hoverDelay={125}>
+                  <MenuItem onClick={this.handleMenuClick} data={{ item: Widget.Container }}>Container</MenuItem>
+                  <MenuItem onClick={this.handleMenuClick} data={{ item: Widget.Paper }}>Paper</MenuItem>
                   <MenuItem onClick={this.handleMenuClick} data={{ item: Widget.Row }}>Row</MenuItem>
                   <MenuItem onClick={this.handleMenuClick} data={{ item: Widget.Column }}>Column</MenuItem>
                   <MenuItem onClick={this.handleMenuClick} data={{ item: Widget.ListView }}>ListView</MenuItem>

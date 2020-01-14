@@ -4,6 +4,7 @@ import ColorPicker from 'rc-color-picker';
 import 'rc-color-picker/assets/index.css';
 import './TextField.css'
 import { initializeAction } from '../../utils.js'
+import IconsDialog from '../IconsDialog'
 
 const { Option } = Select;
 const ButtonGroup = Button.Group;
@@ -49,6 +50,16 @@ class TextField extends React.Component {
 
     handleUnderlinedClick() {
     	this.setState({underlined: !this.state.underlined});
+    }
+
+    getLeadingIcon(value) {
+    	this.icon.input.value = value;
+    	this.props.setLeadingIcon(value)
+    }
+
+    getTrailingIcon(value) {
+    	this.icon.input.value = value;
+    	this.props.setTrailingIcon(value)
     }
 
     render() {
@@ -107,6 +118,7 @@ class TextField extends React.Component {
 		            ],
 		          })(<Input onChange={this.props.setLabel} />)}
 		        </Form.Item>
+		        
 		        <Form.Item label="Placeholder">
 		          {getFieldDecorator('placeholder', {
 		          	initialValue: JSON.parse(window.localStorage.currentSelection).widgetProps.placeholder, 
@@ -118,6 +130,34 @@ class TextField extends React.Component {
 		            ],
 		          })(<Input onChange={this.props.setPlaceholder} />)}
 		        </Form.Item>
+
+		        <IconsDialog>
+			        <Form.Item getIcon={this.getLeadingIcon.bind(this)} label="Leading Icon" style={{cursor: 'pointer'}}>
+			          {getFieldDecorator('Leading Icon', {
+			          	initialValue: JSON.parse(window.localStorage.currentSelection).widgetProps.leadingIcon, 
+			            rules: [
+			              {
+			                required: true,
+			                message: 'Please input the icon',
+			              },
+			            ],
+			          })(<Input addonBefore="Choose icon" placeholder='Click to select file' ref={input => this.icon = input} />)}
+			        </Form.Item>
+		        </IconsDialog>
+
+		        <IconsDialog>
+			        <Form.Item getIcon={this.getTrailingIcon.bind(this)} label="Trailing Icon" style={{cursor: 'pointer'}}>
+			          {getFieldDecorator('Trailing Icon', {
+			          	initialValue: JSON.parse(window.localStorage.currentSelection).widgetProps.trailingIcon, 
+			            rules: [
+			              {
+			                required: true,
+			                message: 'Please input the icon',
+			              },
+			            ],
+			          })(<Input addonBefore="Choose icon" placeholder='Click to select file' ref={input => this.icon = input} />)}
+			        </Form.Item>
+		        </IconsDialog>
 		    </Form>
 		)
 	}
@@ -127,7 +167,7 @@ const TextFieldSidebar = Form.create({ name: 'register' })(TextField);
 
 class TextFieldActions {
 	static initialize() {
-		this.actions = initializeAction(['setText', 'setType', 'setColor', 'setLabel', 'setPlaceholder'], this);
+		this.actions = initializeAction(['setText', 'setType', 'setColor', 'setLabel', 'setPlaceholder', 'setLeadingIcon', 'setTrailingIcon'], this);
 	}
 }
 

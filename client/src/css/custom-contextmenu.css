@@ -10,6 +10,6 @@
   background-color: #f00;
 }
 
-.react-contextmenu-wrapper div {
+.react-contextmenu-wrapper > div {
 	position: absolute !important;
 }

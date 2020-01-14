@@ -12,6 +12,8 @@ import { ImageSidebar, ImageActions } from '../../components/Sidebar/Image'
 import { TextSidebar, TextActions } from '../../components/Sidebar/Text'
 import { PageSidebar, PageActions } from '../../components/Sidebar/Page'
 import { TextFieldSidebar, TextFieldActions } from '../../components/Sidebar/TextField'
+import { ListTileSidebar, ListTileActions } from '../../components/Sidebar/ListTile'
+import { PaperSidebar, PaperActions } from '../../components/Sidebar/Paper'
 import ProjectSidebar from '../../components/Sidebar/Project'
 
 import {observable} from "mobx"
@@ -24,6 +26,8 @@ TextFieldActions.initialize();
 TextActions.initialize();
 RaisedButtonActions.initialize();
 ImageActions.initialize();
+ListTileActions.initialize();
+PaperActions.initialize();
 
 const uuidv1 = require('uuid/v4');
 
@@ -64,7 +68,22 @@ class Home extends Component {
       })
     })*/
 
-    this.TextFieldSidebarActions = {}
+    this.TextFieldActions = TextFieldActions;
+    this.TextActions = TextActions;
+    this.RaisedButtonActions = RaisedButtonActions;
+    this.ImageActions = ImageActions;
+    this.ListTileActions = ListTileActions;
+    this.PaperActions = PaperActions;
+
+    // start by putting the actions up there into this class as properties
+    ['TextField', 'Text', 'RaisedButton', 'Image', 'ListTile', 'Paper'].forEach(widget => {
+      self[`${widget}SidebarActions`] = {}
+      self[`${widget}Actions`].actions.forEach(action => {
+        self[`${widget}SidebarActions`][action] = (function(e) { self[`${widget}Actions`][action](e, self.pageRef.getStageRef()) }).bind(self)
+      })
+    })
+
+    /*this.TextFieldSidebarActions = {}
     TextFieldActions.actions.forEach(action => {
       self.TextFieldSidebarActions[action] = (function(e) { TextFieldActions[action](e, self.pageRef.getStageRef()) }).bind(self)
     })
@@ -82,7 +101,12 @@ class Home extends Component {
     this.ImageSidebarActions = {}
     ImageActions.actions.forEach(action => {
       self.ImageSidebarActions[action] = (function(e) { ImageActions[action](e, self.pageRef.getStageRef()) }).bind(self)
-    })    
+    })
+
+    this.ListTileSidebarActions = {}
+    ListTileActions.actions.forEach(action => {
+      self.ListTileSidebarActions[action] = (function(e) { ListTileActions[action](e, self.pageRef.getStageRef()) }).bind(self)
+    })*/
   }
 
   state = {
@@ -324,26 +348,9 @@ class Home extends Component {
               
               if( $target.closest('.widget').length > 0 ) {
                 const type = JSON.parse(window.localStorage.currentSelection).type;
-                if(type == Widget.Text) {
-                  this.sidebar = 'Text';
-                  if(this.TextSidebarRef) {
-                    this.TextSidebarRef.refreshProps();
-                  }
-                } else if(type == Widget.RaisedButton) {
-                  this.sidebar = 'RaisedButton';
-                  if(this.RaisedButtonSidebarRef) {
-                    this.RaisedButtonSidebarRef.refreshProps();
-                  }
-                } else if(type == Widget.Image) {
-                  this.sidebar = 'Image';
-                  if(this.ImageSidebarRef) {
-                    this.ImageSidebarRef.refreshProps();
-                  }
-                } else if(type == Widget.TextField) {
-                  this.sidebar = 'TextField';
-                  if(this.TextFieldSidebarRef) {
-                    this.TextFieldSidebarRef.refreshProps();
-                  }
+                this.sidebar = type;
+                if(this[`${type}SidebarRef`]) {
+                  this[`${type}SidebarRef`].refreshProps();
                 }
 
                 this.enabledDeletePage = true;
@@ -404,6 +411,8 @@ class Home extends Component {
                     case 'Text': return <TextSidebar wrappedComponentRef={self => this.TextSidebarRef = self } {...this.TextSidebarActions } />; break;
                     case 'Image': return <ImageSidebar wrappedComponentRef={self => this.ImageSidebarRef = self } {...this.ImageSidebarActions} />; break;
                     case 'TextField': return <TextFieldSidebar wrappedComponentRef={self => this.TextFieldSidebarRef = self } {...this.TextFieldSidebarActions } />; break;
+                    case 'ListTile': return <ListTileSidebar wrappedComponentRef={self => this.ListTileSidebarRef = self } {...this.ListTileSidebarActions } />; break;
+                    case 'Paper': return <PaperSidebar wrappedComponentRef={self => this.PaperSidebarRef = self } {...this.PaperSidebarActions } />; break;
                     default: return <div>No item selected</div>
                   }
 

@@ -1,16 +1,20 @@
 import * as React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
-import Card from '@material-ui/core/Card';
-import Typography from '@material-ui/core/Typography';
 import ImageIcon from '@material-ui/icons/Image';
-import { TextField } from '@material-ui/core';
 import PasswordField from './components/PasswordField';
 import { Widget } from './enums';
 import CropOriginalIcon from '@material-ui/icons/CropOriginal';
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+import FavoriteIcon from '@material-ui/icons/Favorite'
+import ShareIcon from '@material-ui/icons/Share'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { setGlobalShapesByShape } from './GlobalState';
+import { Typography, Card, Box, Button, TextField, Grid, AccountCircle, InputAdornment, List, ListItem, ListItemText, ListItemAvatar, Avatar, ListItemIcon, ListItemSecondaryAction,
+         CardActionArea, CardActions, CardContent, CardMedia, IconButton, CardHeader, Paper } from '@material-ui/core';
 import './Demo.css'
+
+
+const MaterialIcons = require('@material-ui/icons')
 
 const fillStyle = {width: '100%', height: '100%'};
 const borderedContainerStyle = {display:'flex', justifyContent:'center', alignItems:'center', border: 'dashed 2px silver'}
@@ -20,32 +24,13 @@ const Demo = (props/*: DemoProps*/) => {
   const { getRef, id, key, type, x, y, angle, width, height, externalSetFocus, isFocused, stageId, widgetProps = {} } = props // focused should be inherited from parent general widget
   const [focused, setFocused] = React.useState((() => { console.log('Demo init being called'); return false; })() || false);
   const [widgetType, setWidgetType] = React.useState(type);
-  // const [getWidgetProps, setWidgetProps] = React.useState(widgetProps);
-
-  // alert('what teh fuck is props: ' + JSON.stringify(props));
-
+  
   const doIt = text => {
     alert('doing it?')
     // setWidgetProps(text);
   }
 
   let elem = null;
-
-  /*const setWidgetProps = function(text) {
-    // this.setState({widgetProps: text})
-    setWidgetProps(text)
-  }*/
-
-  /*React.useEffect(() => {
-      console.clear();
-      console.log('useEffect has been called!');
-      switch(type) {
-        case Widget.RaisedButton: elem = <Button variant="contained" style={fillStyle}>Default</Button>; alert('Raised'); console.dir(elem); break;
-        case Widget.FlatButton: elem = <Button style={fillStyle}>Default</Button>; alert('Flat'); break;
-        case Widget.OutlineButton: elem = <Button variant="outlined" style={fillStyle}>Default</Button>; alert('Outline'); break;
-        default: elem = <div>null</div>;
-      }
-  },type); //Pass Array as second argument*/
 
   return (
     <div
@@ -76,28 +61,119 @@ const Demo = (props/*: DemoProps*/) => {
       ref={getRef}
     >
       {
-        (() => {
+        <div style={{...fillStyle, ...borderedContainerStyle}}>
+        {(() => {
           // if(false) return <div>Look at me</div>; else return <div>Check me out</div>
           switch(type) {
-            case Widget.Empty: return <div tabIndex={id} key={id} style={{...fillStyle, ...borderedContainerStyle}}>...</div>; break;
+            case Widget.Empty: return <div tabIndex={id} key={id} style={{...fillStyle}}>...</div>; break;
             case Widget.RaisedButton: return <Button variant="contained" style={fillStyle}>{ widgetProps.text || 'Default' } </Button>; break;
             case Widget.FlatButton: return <Button style={fillStyle}>Default</Button>; break;
             case Widget.OutlineButton: return <Button variant="outlined" style={fillStyle}>Default</Button>; break;
-            case Widget.Image: return <div style={{...fillStyle, ...borderedContainerStyle}}>
+            case Widget.Image: return <div style={{...fillStyle}}>
               {
                 widgetProps.image ? (!widgetProps.stretchMode || widgetProps.stretchMode == 'Stretch' ? <img src={widgetProps.image} style={imageStyle} /> : <div style={{...imageStyle, backgroundImage: `url(${widgetProps.image})`, backgroundSize: widgetProps.stretchMode}}></div>) : <ImageIcon color="action" />
               }
               </div>;
             break;
-            case Widget.Text: return <Typography tabIndex={id} style={{...fillStyle, ...borderedContainerStyle}}>{ widgetProps.text || '...' }</Typography>; break;
+            case Widget.Text: return <Typography tabIndex={id} style={{...fillStyle}}>{ widgetProps.text || '...' }</Typography>; break;
             case Widget.TextField: {
               // dat, number and time lia sokolisa hence generalized them
-              if(!widgetProps.type || widgetProps.type != 'Password') { return <TextField placeholder={widgetProps.placeholder || ''} label={widgetProps.label || ''} value={widgetProps.text} style={{...fillStyle, ...borderedContainerStyle}} InputProps={{readOnly: true}} />; break; }
+              if(!widgetProps.type || widgetProps.type != 'Password') { return (
+                  <TextField 
+                    placeholder={widgetProps.placeholder || ''}
+                    label={widgetProps.label || ''}
+                    value={widgetProps.text}
+                    style={{...fillStyle}}
+                    InputProps={{
+                      readOnly: true,
+                      startAdornment: !widgetProps.leadingIcon ? null : (
+                        <InputAdornment position="start">
+                          { React.createElement( MaterialIcons[widgetProps.leadingIcon] ) }
+                        </InputAdornment>
+                      ),
+                      endAdornment: !widgetProps.trailingIcon ? null : (
+                        <InputAdornment position="end">
+                          { React.createElement( MaterialIcons[widgetProps.trailingIcon] ) }
+                        </InputAdornment>
+                      ),
+                    }} />
+              ); break; }
               if(widgetProps.type == 'Password') { return <div style={{...borderedContainerStyle, display: 'block', ...fillStyle}}><PasswordField placeholder={widgetProps.placeholder || ''} label={widgetProps.label || ''} value={widgetProps.text} /></div>; break; }
             }
+            case Widget.ListTile: return (
+              <List style={{...fillStyle, justifyContent: 'left'}}>
+                <ListItem>
+                    {
+                      // React.createElement(widgetProps.isAvatarLeading ? 'Avatar' : 'div', {}, [MaterialIcons[widgetProps.leadingIcon]] )
+                      (function() {
+                        if( widgetProps.leadingIcon ) {
+                          if( widgetProps.isAvatarLeading ) {
+                            return (<ListItemAvatar><Avatar>
+                              { React.createElement( MaterialIcons[widgetProps.leadingIcon] ) }
+                            </Avatar></ListItemAvatar>)
+                          } else {
+                            return (<ListItemIcon>
+                              { React.createElement( MaterialIcons[widgetProps.leadingIcon] ) }
+                            </ListItemIcon>)
+                          }
+                        }
+                      })()
+                    }
+
+                    { widgetProps.leadingImage && <ListItemAvatar><Avatar src={widgetProps.leadingImage} /></ListItemAvatar> }                    
+                  <ListItemText primary={widgetProps.title} secondary={widgetProps.subtitle} />
+                  <ListItemSecondaryAction>
+                    <ListItemIcon edge="end">
+                      { widgetProps.trailingIcon && React.createElement( MaterialIcons[widgetProps.trailingIcon] ) }
+                    </ListItemIcon>
+                  </ListItemSecondaryAction>
+                </ListItem>
+              </List>
+            );
+            case Widget.Card: return(
+              <Card style={{textAlign: 'left'}}>
+                <CardHeader
+                  avatar={
+                    <Avatar src={widgetProps.avatar} />
+                  }
+                  action={
+                    <IconButton aria-label="settings">
+                      { MaterialIcons[widgetProps.headerAction] }
+                    </IconButton>
+                  }
+                  title={widgetProps.title || "Title"}
+                  subheader={widgetProps.subtitle || "Subtitle"}
+                />
+                { widgetProps.mediaHeight === undefined || widgetProps.mediaHeight == 'auto' ?
+                   <img width="100%" src={widgetProps.image || '/BlankImage.png'} /> :
+                   <CardMedia
+                     image="./0/file-1578598603929.PNG"
+                     title="Paella dish"
+                     style={{height: '110px'}}
+                   />
+                }
+
+                <CardContent>
+                  <Typography variant="body2" color="textSecondary" component="p">
+                    { widgetProps.text || 'Content...' }
+                  </Typography>
+                </CardContent>
+                <CardActions disableSpacing>
+                  {
+                    widgetProps.actions && widgetProps.actions.map(action => (
+                      <IconButton>
+                        { MaterialIcons[action] }
+                      </IconButton>
+                    ))
+                  }
+                </CardActions>
+              </Card>
+            )
+            case Widget.Paper: return <Paper elevation={widgetProps.elevation || 1} style={fillStyle} />
             default: return <Box component="chip" m={1}>Could not find widget</Box>;
           }
-        })()
+        })()}
+        </div>
       }
     </div>
   )

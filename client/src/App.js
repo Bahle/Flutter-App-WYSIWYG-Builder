@@ -5,6 +5,7 @@ import LogOut from './pages/admin/LogOut';*/
 
 import Home from './pages/admin/Home';
 import Project from './pages/admin/Project';
+import DataModelDialog from './components/DataModelDialog';
 /*import Test from './pages/admin/Test';*/
 
 /*import UserList from './pages/admin/Users/List.js';
@@ -25,6 +26,7 @@ class App extends Component {
     return (
       <div>
         <Switch>
+            <Route exact path="/data-model-dialog" component={DataModelDialog}/>
             <Route exact path="/" component={Home}/>
             <Route exact path="/project/:id" component={Project}/>
             <Route component={NotFound} exact />

@@ -114,8 +114,8 @@ class Stage extends React.Component {
 	render() {
 		return (
 			<div onKeyDown={this.handleOnKeyDown} id={this.props.id} style={{width: '360px', height: this.state.height, border: 'solid 2px black'}} onMouseDown={e => {
-				const currentTool = JSON.parse(window.localStorage.getItem('currentTool'));
-				if(!currentTool) return;
+				const currentTool = window.localStorage.getItem('currentTool')
+				if(currentTool == "null") return;
 				//! took me some time to figure out
 				// in ResizeDemo when store updated props in localStorage the one here are not updated
 				// hence update the props from localStorage
