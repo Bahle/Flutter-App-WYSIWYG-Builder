@@ -34,12 +34,13 @@ class Page extends React.Component {
 
     render() {
 	    const { getFieldDecorator } = this.props.form;
+	    const page = JSON.parse(window.localStorage.pages).find(page => page.name == window.localStorage.currentPage);
 
 		return(
 			<Form {...this.formItemLayout}>
 		        <Form.Item label="height">
 		          {getFieldDecorator('height', {
-		          	initialValue: JSON.parse(window.localStorage.pages).find(page => page.name == window.localStorage.currentPage).height || 640, 
+		          	initialValue: (page && page.height) || 640, 
 		            rules: [
 		              /*{
 		                type: 'email',

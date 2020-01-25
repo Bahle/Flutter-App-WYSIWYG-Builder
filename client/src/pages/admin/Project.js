@@ -43,6 +43,7 @@ window.localStorage.currentProject = projectId;
 
 // initialize pages if not defined
 if(!window.localStorage.pages) window.localStorage.pages = "[]";
+if(!window.localStorage.dataModels) window.localStorage.dataModels = "[]";
 
 const storedPages = JSON.parse(window.localStorage.pages);
 
@@ -260,11 +261,13 @@ class Home extends Component {
       key: key,
       height: 640
     }
+    alert('new page is: ' + JSON.stringify(properties))
     tabs.pages.push(newPage);
 
     const pages = JSON.parse(window.localStorage.pages);
     pages.push(newPage);
     window.localStorage.pages = JSON.stringify(pages);
+    alert('window.localStorage.pages is now ' + window.localStorage.pages)
 
     // set the selected page as the newly created one
     window.localStorage.currentPage = key;

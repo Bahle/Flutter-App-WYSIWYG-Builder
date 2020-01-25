@@ -5,7 +5,7 @@ import axios from 'axios'
 import 'react-upload-gallery/dist/style.css'
 
 let location = window.location.pathname.split('/');
-location = location[location.length-1];
+location = location[location.length-1] || location[location.length-2];;
 // alert(location);
 
 const RUGElement = props => {
