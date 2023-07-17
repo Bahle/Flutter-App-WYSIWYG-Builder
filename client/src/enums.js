@@ -11,6 +11,7 @@ const Widget = {
 	RichText: 'RichText',
 	Icon: 'Icon',
 	ListTile: 'ListTile',
+	ListTiles: 'ListTiles',
 	Chip: 'Chip',
 	Divider: 'Divider',
 	Container: 'Container',
@@ -19,18 +20,24 @@ const Widget = {
 	Column: 'Column',
 	ListView: 'ListView',
 	GridView: 'GridView',
+	GridItem: 'GridItem',
 	Wrap: 'Wrap',
 	TextField: 'TextField',
 	Slider: 'Slider',
+	Progress: 'Progress',
 	DropdownButton: 'DropdownButton',
+	PopupMenuButton: 'PopupMenuButton',
+	AppBar: 'AppBar',
 	Radio: 'Radio',
 	Checkbox: 'Checkbox',
 	Switch: 'Switch',
+	DatePicker: 'DatePicker',
+	TimePicker: 'TimePicker',
 	Form: 'Form',
-	CheckboxListTile: 'CheckboxListTile',
+	/*CheckboxListTile: 'CheckboxListTile',
 	RadioListTile: 'RadioListTile',
-	SwitchListTitle: 'SwitchListTitle',
-	ExpansionTile: 'ExpansionTile',
+	SwitchListTitle: 'SwitchListTitle',*/
+	ExpansionTile: 'ExpansionTile', //?
 	TabBar: 'TabBar',
 	BottomNavigationBar: 'BottomNavigationBar',
 	Stepper: 'Stepper',
@@ -45,6 +52,9 @@ const Widget = {
 	Country_Picker: 'Country_Picker',
 	AutoComplete: 'AutoComplete',
 	Rating: 'Rating',
+	Placeholder: 'Placeholder',
+	ChatWindow: 'ChatWindow',
+	SpeedDial: 'SpeedDial',
 }
 
 const ContainerType = {
@@ -53,7 +63,8 @@ const ContainerType = {
   	Login: 'Login',
   	SignUp: 'SignUp',
   	OnBoard: 'OnBoard',
-  	Chat: 'Chat'
+  	Chat: 'Chat',
+  	ScrollableBottomSheet: 'ScrollableBottomSheet'
   },
   Popup: {
     Dialog: 'Dialog',
@@ -61,7 +72,7 @@ const ContainerType = {
     BottomSheet: 'BottomSheet',
     // Snackbar: 5,
     Tooltip: 'Tooltip',
-    DatePicker: 'DatePicker',
+    // DatePicker: 'DatePicker',
   },
   container: {
     TabView: 'TabView',

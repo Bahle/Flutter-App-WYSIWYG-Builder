@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
-import { Form, Input, Select } from 'antd';
+import { Form, Input, Select, Switch } from 'antd';
 import ImageDialog from './ImageDialog'
 import { initializeAction } from '../../utils.js'
+import { EventEmitter } from '../../utils/Events.js'
+import Common from './Common'
 
 const { Option } = Select;
 
-class Image extends React.Component {
+class Image extends Common {
 	constructor(props) {
 		super(props);
+
+		this.widgetProps = JSON.parse(window.localStorage.currentSelection).widgetProps;
+
+		this.state = {
+			isCachedNetworkImage: this.widgetProps.isCachedNetworkImage
+		}
 	}
 
 	formItemLayout = {
@@ -22,11 +30,12 @@ class Image extends React.Component {
     };
 
     refreshProps() {
-    	const { source, stretchMode } = JSON.parse(window.localStorage.currentSelection).widgetProps;
+    	const { source, stretchMode, isCachedNetworkImage } = this.widgetProps;
 
     	this.props.form.setFieldsValue({
 	      source,
 	      stretchMode,
+	      isCachedNetworkImage
 	    });
     }
 
@@ -39,49 +48,60 @@ class Image extends React.Component {
     	// console.dir(this.source)
     	this.source.input.value = value;
 
-    	this.props.setImage(value)
+    	// this.props.setImage(value) ?
+    	EventEmitter.dispatch('setImage', value)
     }
 
-    handleSelectStretchMode(value) {
-    	alert(value)
+    handleCachedImage(value) {
+    	EventEmitter.dispatch('setIsCachedNetworkImage', value)
 
+    	this.setState({isCachedNetworkImage: value})
     }
 
     render() {
 	    const { getFieldDecorator } = this.props.form;
 
 		return(
-			<Form {...this.formItemLayout}>
-		        <ImageDialog>
-			        <Form.Item getImage={this.getImage.bind(this)} label="Source" style={{cursor: 'pointer'}}>
-			          {getFieldDecorator('source', {
-			          	initialValue: JSON.parse(window.localStorage.currentSelection).widgetProps.image, 
+			<React.Fragment>
+				<Form {...this.formItemLayout}>
+			        <ImageDialog>
+				        <Form.Item getImage={this.getImage.bind(this)} label="Source" style={{cursor: 'pointer'}}>
+				          {getFieldDecorator('source', {
+				          	initialValue: this.widgetProps.image, 
+				            rules: [
+				              {
+				                required: true,
+				                message: 'Please input the source',
+				              },
+				            ],
+				          })(<Input addonBefore="Choose file" placeholder='Click to select file' ref={input => this.source = input} />)}
+				        </Form.Item>
+			        </ImageDialog>
+
+			        <Form.Item label="Stretch mode" style={{cursor: 'pointer'}}>
+			        	{getFieldDecorator('stretchMode', {
+			          	initialValue: this.widgetProps.stretchMode || 'Stretch', 
 			            rules: [
 			              {
 			                required: true,
-			                message: 'Please input the source',
+			                message: 'Please input the stretch mode',
 			              },
 			            ],
-			          })(<Input addonBefore="Choose file" placeholder='Click to select file' ref={input => this.source = input} />)}
+			          })(<Select defaultValue="Stretch" onChange={ value => EventEmitter.dispatch('setStretchMode', value) }>
+					      <Option value="Stretch">Stretch</Option>
+					      <Option value="Cover">Cover</Option>
+					      <Option value="Contain">Contain</Option>
+					    </Select>)}
 			        </Form.Item>
-		        </ImageDialog>
 
-		        <Form.Item label="Stretch mode" style={{cursor: 'pointer'}}>
-		        	{getFieldDecorator('stretchMode', {
-		          	initialValue: JSON.parse(window.localStorage.currentSelection).widgetProps.stretchMode || 'Stretch', 
-		            rules: [
-		              {
-		                required: true,
-		                message: 'Please input the stretch mode',
-		              },
-		            ],
-		          })(<Select defaultValue="Stretch" onChange={this.props.setStretchMode}>
-				      <Option value="Stretch">Stretch</Option>
-				      <Option value="Cover">Cover</Option>
-				      <Option value="Contain">Contain</Option>
-				    </Select>)}
-		        </Form.Item>
-		    </Form>
+			        <Form.Item label="Cached Network Image" style={{cursor: 'pointer'}}>
+			        	{getFieldDecorator('isCachedNetworkImage')
+			        		(<Switch checked={this.state.isCachedNetworkImage} onChange={ this.handleCachedImage.bind(this) } /> )}
+			        </Form.Item>
+			    </Form>
+
+			    { super.render() }
+		    </React.Fragment>
 		)
 	}
 }

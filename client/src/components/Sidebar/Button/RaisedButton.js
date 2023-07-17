@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import { Form, Input } from 'antd';
 import { initializeAction } from '../../../utils.js'
+import { EventEmitter } from '../../../utils/Events.js'
+import IconsDialog from '../../IconsDialog'
+import ImageDialog from '../ImageDialog'
+import Common from '../Common'
 
-class RaisedButton extends React.Component {
+class RaisedButton extends Common {
 	constructor(props) {
 		super(props);
+
+		this.widgetProps = JSON.parse(window.localStorage.currentSelection).widgetProps;
 	}
 
 	formItemLayout = {
@@ -20,44 +26,75 @@ class RaisedButton extends React.Component {
 
     refreshProps() {
     	this.props.form.setFieldsValue({
-	      text: JSON.parse(window.localStorage.currentSelection).widgetProps.text,
+	      text: this.widgetProps.text,
 	    });
+    }
+
+    getIcon(value) {
+    	this.icon.input.value = value;
+    	EventEmitter.dispatch('setIcon', value)
+    }
+
+    getImage(value) {
+    	this.source.input.value = value;
+
+    	EventEmitter.dispatch('setImage', value)
     }
 
     render() {
 	    const { getFieldDecorator } = this.props.form;
 
 		return(
-			<Form {...this.formItemLayout}>
-		        <Form.Item label="Text">
-		          {getFieldDecorator('text', {
-		          	initialValue: JSON.parse(window.localStorage.currentSelection).widgetProps.text, 
-		            rules: [
-		              /*{
-		                type: 'email',
-		                message: 'The input is not valid E-mail!',
-		              },*/
-		              {
-		                required: true,
-		                message: 'Please input the button text',
-		              },
-		            ],
-		          })(<Input ref={fuck => this.fuck = fuck} onChange={this.props.setText} />)}
-		        </Form.Item>
-		    </Form>
+			<React.Fragment>
+				<Form {...this.formItemLayout}>
+			        <Form.Item label="Text">
+			          {getFieldDecorator('text', {
+			          	initialValue: this.widgetProps.text, 
+			            rules: [
+			              {
+			                required: true,
+			                message: 'Please input the button text',
+			              },
+			            ],
+			          })(<Input onChange={ event => EventEmitter.dispatch('setText', event.target.value) } />)}
+			        </Form.Item>
+			    </Form>
+
+	            <IconsDialog>
+	    	        <Form.Item geticon={this.getIcon.bind(this)} label="Icon" style={{cursor: 'pointer'}}>
+	    	          {getFieldDecorator('Icon', {
+	    	          	initialValue: this.widgetProps.icon, 
+	    	            rules: [
+	    	              {
+	    	                required: true,
+	    	                message: 'Please input the icon',
+	    	              },
+	    	            ],
+	    	          })(<Input addonBefore="Choose icon" placeholder='Click to select file' ref={input => this.icon = input} />)}
+	    	        </Form.Item>
+	            </IconsDialog>
+
+	            <ImageDialog>
+			        <Form.Item getImage={this.getImage.bind(this)} label="Source" style={{cursor: 'pointer'}}>
+			          {getFieldDecorator('source', {
+			          	initialValue: this.widgetProps.image, 
+			            rules: [
+			              {
+			                required: true,
+			                message: 'Please input the source',
+			              },
+			            ],
+			          })(<Input addonBefore="Choose file" placeholder='Click to select file' ref={input => this.source = input} />)}
+			        </Form.Item>
+		        </ImageDialog>
+
+			    { super.render() }
+			</React.Fragment>
 		)
 	}
 }
 
 const RaisedButtonSidebar = Form.create({ name: 'register' })(RaisedButton);
 
-class RaisedButtonActions {
-	static initialize() {
-		this.actions = initializeAction(['setText'], this);
-	}
-}
-
-export {
-	RaisedButtonSidebar, RaisedButtonActions 
-};
+export default RaisedButtonSidebar
 

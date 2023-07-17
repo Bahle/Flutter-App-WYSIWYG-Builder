@@ -1,0 +1,30 @@
+
+
+  <import package="flutter_view_tools/flutter_view_tools.dart"/>
+  <NewPage flutter-view="true">
+    <scaffold>
+      <app-bar as="appBar">
+        <text as="title" value="CoolApp"/>
+      </app-bar>
+      <layout-builder as="body">
+        <function as="builder" params="context, viewportConstraints">
+          <single-child-scroll-view>
+            <constrained-box>
+              <box-constraints as="constraints" :minHeight="viewportConstraints.maxHeight"/>
+              <stack>
+                <div margin="329.98333740234375 143">Hello, world</div>
+                <material elevation="3">
+                  <opacity opacity="0.8">
+                    <div margin="383.98333740234375 47.41667175292969" background-color="Primary" border-radius="15" border-width="2" border-color="Secondary" repeatable="true"/>
+                  </opacity>
+                </material>
+              </stack>
+            </constrained-box>
+          </single-child-scroll-view>
+        </function>
+      </layout-builder>
+      <floating-action-button as="floatingActionButton">
+        <icon :value="Icons.add"/>
+      </floating-action-button>
+    </scaffold>
+  </NewPage>

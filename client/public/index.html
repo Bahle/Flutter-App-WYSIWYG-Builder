@@ -25,12 +25,16 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="%PUBLIC_URL%/js/jquery-2.2.4.min.js"></script>
     <script>
-    window.$ = $;
+      window.$ = $;
+
+      /*$('body').keydown(function(e) {
+        if(window.localStorage.currentSelection) e.preventDefault()
+      })*/
     </script>
   </head>
-  <body>
+  <body style="overflow: scroll">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--

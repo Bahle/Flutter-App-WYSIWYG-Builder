@@ -48,3 +48,17 @@
 .widget-tab {
   width: 100% !important;
 }
+.ant-tabs-nav-scroll {
+  display: flex;
+}
+.ant-collapse-content-active {
+  height: 400px;
+  overflow-y: scroll !important;
+}
+.tool-name {
+  display: block;
+  font-size: x-small;
+  text-decoration: none;
+  color: #aaa;
+  font-weight: bold;
+}

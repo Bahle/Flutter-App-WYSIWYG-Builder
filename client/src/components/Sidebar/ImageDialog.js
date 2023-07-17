@@ -17,6 +17,7 @@ const RUGElement = props => {
 			.get('http://localhost:5000/images?project=' + location)
 			.then(response => {
 				console.log(JSON.stringify(response.data.result))
+        response.data.result.push({name: 'Set Null', source: ''})
 				// images = response.result
 				setImages(response.data.result)
 			})

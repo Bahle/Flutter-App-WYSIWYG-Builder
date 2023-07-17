@@ -1,0 +1,30 @@
+import 'package:flutter/widgets.dart';
+		import 'package:flutter/material.dart';
+
+		void main() => runApp(MyApp());
+
+		class MyApp extends StatelessWidget {
+		  @override
+		  Widget build(BuildContext context) {
+		    return MaterialApp(
+		      title: 'Flutter Demo',
+		      theme: ThemeData(
+		      	primaryColor: Colors.blue[500],
+		      	accentColor: Colors.pinkAccent[400],
+		        colorScheme: ColorScheme( // .light
+		          primary: Colors.blue[500],
+		          secondary: Colors.pinkAccent[400],
+		          onSecondary: Colors.black,
+		          onPrimary: Colors.white,
+		          onBackground: Colors.black,
+		          surface: Colors.white,
+		          onSurface: Colors.black,
+		          error: Colors.red[700],
+		          onError: Colors.white,
+		          background: Colors.white,
+		        ),
+		      ),
+		      home: NewPage()
+		    );
+		  }
+		}

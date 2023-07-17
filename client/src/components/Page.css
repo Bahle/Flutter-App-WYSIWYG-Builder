@@ -5,3 +5,8 @@
 	scrollbar-width: thin;
 	/*width: 370px;*/
 }
+
+.app-page .ant-card-body {
+	width: 100%;
+	height: 100%;
+}

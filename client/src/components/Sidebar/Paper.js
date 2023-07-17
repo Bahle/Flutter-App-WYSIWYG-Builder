@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Form, InputNumber } from 'antd';
 import { initializeAction } from '../../utils.js'
+import { EventEmitter } from '../../utils/Events.js'
+import Common from './Common'
 
-class Paper extends React.Component {
+class Paper extends Common {
 	constructor(props) {
 		super(props);
 	}
@@ -28,19 +30,23 @@ class Paper extends React.Component {
 	    const { getFieldDecorator } = this.props.form;
 
 		return(
-			<Form {...this.formItemLayout}>
-		        <Form.Item label="Elevation">
-		          {getFieldDecorator('elevation', {
-		          	initialValue: JSON.parse(window.localStorage.currentSelection).widgetProps.elevation, 
-		            rules: [
-		              {
-		                required: true,
-		                message: 'Please input the elevation',
-		              },
-		            ],
-		          })(<InputNumber step={1} min={0} onChange={this.props.setElevation} />)}
-		        </Form.Item>
-		    </Form>
+			<div>
+				<Form {...this.formItemLayout}>
+			        <Form.Item label="Elevation">
+			          {getFieldDecorator('elevation', {
+			          	initialValue: JSON.parse(window.localStorage.currentSelection).widgetProps.elevation, 
+			            rules: [
+			              {
+			                required: true,
+			                message: 'Please input the elevation',
+			              },
+			            ],
+			          })(<InputNumber step={1} min={0} onChange={ event => EventEmitter.dispatch('setElevation', event.target.value) } />)}
+			        </Form.Item>
+			    </Form>
+
+			    { super.render() }
+			</div>
 		)
 	}
 }

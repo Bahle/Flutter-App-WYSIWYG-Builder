@@ -1,0 +1,39 @@
+
+
+  <import package="flutter_view_tools/flutter_view_tools.dart"/>
+  <Home flutter-view="true">
+    <scaffold>
+      <app-bar as="appBar">
+        <text as="title" value="TaxiCab"/>
+        <icon-button as="leading">
+          <icon as="icon" :value="AcUnit"/>
+        </icon-button>
+        <array as="actions">
+          <icon-button>
+            <icon as="icon" :value="AccountBox"/>
+          </icon-button>
+          <icon-button>
+            <icon as="icon" :value="AddComment"/>
+          </icon-button>
+        </array>
+      </app-bar>
+      <layout-builder as="body">
+        <function as="builder" params="context, viewportConstraints">
+          <single-child-scroll-view>
+            <constrained-box>
+              <box-constraints as="constraints" :minHeight="viewportConstraints.maxHeight"/>
+              <stack>
+                <div margin="400.98333740234375 117.41667175292969" text="flat" border-color="Secondary" background-color="Primary" color="OnPrimary" border-width="2" icon="AccessAlarms" options="aaa
+bbb
+ccc" inkwell="true">
+                  <stack>
+                    <div margin="30 9">aaa</div>
+                  </stack>
+                </div>
+              </stack>
+            </constrained-box>
+          </single-child-scroll-view>
+        </function>
+      </layout-builder>
+    </scaffold>
+  </Home>

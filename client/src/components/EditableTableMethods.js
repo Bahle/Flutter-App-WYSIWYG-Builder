@@ -316,7 +316,7 @@ class EditableTable extends React.Component {
           columns={columns}
           pagination={false}
         />
-        <Button onClick={this.handleAdd} type="primary" style={{ position:'relative', marginTop: '14px', /*top: this.props.Values.length ? '-51px' : 0*/ }}>Add a row</Button>
+        <Button onClick={this.handleAdd} type="primary" style={{ float:'left', marginTop: '14px' }}>Add a row</Button>
       </div>
     );
   }

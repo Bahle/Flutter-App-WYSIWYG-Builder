@@ -4,10 +4,13 @@ import EditableTableMethods from './EditableTableMethods'
 import EditableTableFields from './EditableTableFields'
 import SingleFileUpload from './SingleFileUpload'
 import Draggable from 'react-draggable'
+import modelTypeFields from '../json/ModelTypes'
 // import ResizableAndMovable from 'react-resizable-and-movable' // not fucking working!
 
+if(!window.localStorage.modelData) window.localStorage.modelData = '[]';
 /*if(!window.localStorage.hostServers) */window.localStorage.hostServers = '{}'; // reinit
 /*if(!window.localStorage.firebaseFiles) */window.localStorage.firebaseFiles = '{}'; // reinit
+
 
 const { TabPane } = Tabs;
 const { Option, OptGroup } = Select;
@@ -67,7 +70,7 @@ const TabContent = React.forwardRef(({tabKey, tabName, tabMethods, tabFields, ta
   const [hostServer, setHostServer] = React.useState(tabHostServer)
   const [firebaseFile, setFirebaseFile] = React.useState(tabFirebaseFile)
   
-  const modelTypeFields = JSON.parse(window.localStorage.modelTypes);
+  // const modelTypeFields = JSON.parse(window.localStorage.modelTypes);
 
   const handleModelTypeChange = value => {
     setModelType(value)
@@ -117,7 +120,7 @@ const TabContent = React.forwardRef(({tabKey, tabName, tabMethods, tabFields, ta
             } else {
               return (
                 <div>
-                  <Select defaultValue="null" style={{width: '100%', marginBottom: '7px'}} onChange={handleModelTypeChange}>
+                  {/* <Select defaultValue="null" style={{width: '100%', marginBottom: '7px'}} onChange={handleModelTypeChange}>
                     <Option value="null">-- Select --</Option>
                     <Option value="post">Post/Item</Option>
                     <Option value="product">Product</Option>
@@ -130,7 +133,7 @@ const TabContent = React.forwardRef(({tabKey, tabName, tabMethods, tabFields, ta
                     <Option value="call">Call</Option>
                     <Option value="category">Category</Option>
                     <Option value="other">Other</Option>
-                  </Select>
+                  </Select> */}
 
                 { /*
                  !!! later use https://github.com/bdyetton/react-resizable-and-movable for drag and drop !!!
@@ -256,21 +259,32 @@ onChange = activeKey => {
   CancelEnterName = () => this.setState({addingTab: false});
 
   SaveModels() {
-    const hostServers = JSON.parse(window.localStorage.hostServers),
-          firebaseFiles = JSON.parse(window.localStorage.firebaseFiles)
+    const temp = JSON.parse(window.localStorage.modelData);
 
-    const modelData = this.state.panes.map(pane => ({
+    // if not in localStorate get from stored model data
+    const hostServers = window.localStorage.hostServers != "{}" ? JSON.parse(window.localStorage.hostServers) : temp.map(model => { return { [model.name]: model.hostServer } } ),
+          firebaseFiles = window.localStorage.firebaseFiles != "{}" ? JSON.parse(window.localStorage.firebaseFiles) : temp.map(model => { return { [model.name]: model.firebaseFiles } } )
+
+    alert(JSON.stringify(hostServers))
+
+    const modelData = this.state.panes.map((pane, i) => { return ({
         name: pane.title,
-        hostServer: hostServers[pane.key],
-        firebaseFile: firebaseFiles[pane.key],
-        methods: pane.methods || this.methodRefs[pane.title].state.dataSource,
-        fields: pane.fields || this.fieldRefs[pane.title].state.dataSource
-      })
+        hostServer: hostServers[pane.key] || hostServers[i] && hostServers[i][pane.key],
+        firebaseFile: firebaseFiles[pane.key] || firebaseFiles[i] && firebaseFiles[i][pane.key],
+        methods: this.methodRefs[pane.title].state.dataSource.length != 0 ? this.methodRefs[pane.title].state.dataSource : pane.methods,
+        fields: this.fieldRefs[pane.title].state.dataSource.length != 0 ? this.fieldRefs[pane.title].state.dataSource : pane.fields,
+        
+      }) }
     )
+
+    /*console.dir(this.methodRefs)
+    console.dir(this.fieldRefs)*/
+    // alert('check: ' + JSON.stringify(modelData))
 
     window.localStorage.modelData = JSON.stringify(modelData)
   }
 
+  // delete later; doesn't seem to be working
   GetModels() {
     const hostServers = JSON.parse(window.localStorage.hostServers),
           firebaseFiles = JSON.parse(window.localStorage.firebaseFiles)

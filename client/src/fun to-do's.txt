@@ -1,0 +1,40 @@
+opacity, rotation (t)*, scale (t), gradient* @8 hours ++ 4 2### -- 1 -
+- cachedNetworkImage (widget property) (t) 2 -
+
+!- icons in tab bar (t) 12
+!- calendar (t) 3 -
+scrollableBottomSheet (t) 11 - js only
+- height
+cc bottomNavBar styles (t) 10
+gradient? (t) 13
+hasSearch (t) 6 - js only
+move widget with arrow keys (t) 7 -
+copy and paste (t) 8 -
+more_vert dropdown menu (t) 9
+shortcut keys for widgets (t) 4 -
+speed dial (t) 5 -
+story widget (t) 14 x
+story/video trimmer (t) x
+walkthrough template? (t) (e.g. coinbase wallet) 15
+
+scaffolding entire project (with props) (t) (get models and firebase) 17
+
+whileLoading (shimmer || loading) (t?) 16 x
+
+c viewmodel (functions and variables?) 17
+
+cc graphs 20
+- including candlestick
+dimensions (x and y props) 18 - 
+stepper widget 19
+
+segmented widget
+contact list ui (for crypto wallet)
+infinite scroll prop? x
+
+==========
+
+cc templates (sign up/in, walkthrough)
+repeatable container ;formula! => use marginTop in container to repeat (start by making text elem with useModel prop) c
+zoom
+export to flutter

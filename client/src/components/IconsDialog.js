@@ -63,7 +63,7 @@ class IconsWidget extends React.Component {
 
 				<Row style={{background: '#eee', display: 'block'}}>
 					{
-						iconList.filter(check => ~check.toLowerCase().indexOf(this.state.search)).slice(0, 42).map(icon => {
+						iconList.filter(check => ~check.toLowerCase().indexOf(this.state.search)).slice(0, 41).map(icon => {
 							const Tag = icon;
 
 							return (<div key={icon} onClick={this.handleClick.bind(this, icon)}><Box title={icon}>
@@ -71,6 +71,8 @@ class IconsWidget extends React.Component {
 							</Box></div>)
 						})
 					}
+
+					<div key={'None'} onClick={this.handleClick.bind(this, null)}><Box title={''}>None</Box></div>
 				</Row>
 			</div>
 		)
@@ -89,7 +91,7 @@ class Dialog extends React.Component {
   };
 
   handleCancel = () => {
-  	this.formRef.props.getIcon('') // it works!
+  	this.formRef.props.geticon('') // it works!
     this.setState({ visible: false });
   };
 
@@ -113,11 +115,11 @@ class Dialog extends React.Component {
   };
 
   handleSelectIcon(icon) {
-	// alert('clicked: ' + JSON.stringify(e))
-	this.setState({visible: false})
-	// console.dir(this.props.children)
-	// this.formRef.hello()
-	this.formRef.props.getIcon(icon) // it works!
+		// alert('clicked: ' + JSON.stringify(e))
+		this.setState({visible: false})
+		// console.dir(this.props.children)
+		// this.formRef.hello()
+		this.formRef.props.geticon(icon) // it works!
   }
 
   render() {

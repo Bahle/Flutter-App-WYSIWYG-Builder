@@ -21,6 +21,42 @@ function initializeAction(actions, self) {
 	return actionNames;
 }
 
-const actions = ['setText','setHeight','setImage','setStretchMode','setType','setColor','setLabel', 'setPlaceholder', 'setLeadingIcon', 'setTrailingIcon','setTitle', 'setSubtitle', 'setElevation']
+/* finish the following three functions later */
+/* this.state.type == 'GridView' && <Form.Item label={UpperCaseFirstWords('columnCount')}>
+  {getFieldDecorator('columnCount', {
+  	initialValue: this.widgetProps['columnCount'] || this.currentSelection.columnCount, 
+    rules: [
+      {
+        required: true,
+        message: `Please input the inner ${lowerCaseWords('columnCount')}`,
+      },
+    ],
+  })(<InputNumber step={10} onChange={value => EventEmitter.dispatch(`set${UpperCaseFirstWords('columnCount')}`, value) } />)}
+</Form.Item> */
+// camelCased => Camel Cased
+/*function UpperCaseFirstWords(value) {
 
-export { fieldLabel, pluralize, initializeAction, actions };
+}
+
+// Normal Words => normalWords
+function camelCaseWords(value) {
+
+}
+
+function lowerCaseWords(value) {
+	return value.toLowerCase()
+}*/
+
+function materialColor(color) {
+	if(!color) return null;
+	return JSON.parse(window.localStorage.themeData)?.color?.find(data => data.key == color)?.colorCode || null;
+}
+
+const actions = ['setText','setHeight','setImage','setStretchMode','setType','setColor','setLabel', 'setPlaceholder', 'setLeadingIcon', 'setTrailingIcon','setTitle', 'setSubtitle', 'setElevation', 'setTabs', 'setTabIcons', 'setIcon',
+				'setOptions', 'setTabImages', 'setModel', 'setModelField', 'setActions', 'setDrawerListItems', 'setInnerHeight', 'setColumnCount', 'setBorderWidth', 'setBorderColor', 'setBorderRadius', 'setBackgroundColor', 'setOpacity', 'setEventType', 'setPopupType', 'setCameraType', 'setNavigateToPage', 'setWebsiteURL', 'setDialogTitle', 'setDialogContent', 'setOrientation', 'setShowLabel', 'setMin', 'setMax', 'setDivisions', 'setIsRangeSlider',
+				'setIsDeterminate', 'setDocked', 'setMini', 'setFontSize', 'setInkwell', 'setTitles', 'setSubtitles', 'setLeadingIcons', 'setTrailingIcons', 'setTrailingCheckbox', 'setTrailingSwitch', 'setIsSelectable', 'setDeleteIcon', 'setSelectionColor', 'setLabelColor', 'setIconColor', 'setLabels', 'setIcons', 'setImages', 'setPadding', 'setTextWrap', 'setFocusBorderColor', 'setOutlinedBorder', 'setBackgroundImage', 
+				'setTitleModelField', 'setSubtitleModelField', 'setLeadingModelField', 'setTrailingModelField', 'setAvatar', 'setMediaHeight', 'setActionText', 'setActionIcons', 'setUseModel', 'setRotation', 'setScale', 
+				'setIsCachedNetworkImage', 'setIsYear', 'setIsMonth'
+]
+
+export { fieldLabel, pluralize, initializeAction, actions, materialColor };

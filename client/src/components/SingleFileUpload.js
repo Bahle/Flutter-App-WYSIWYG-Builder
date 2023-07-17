@@ -67,7 +67,7 @@ class Avatar extends React.Component {
         listType="picture-card"
         className="avatar-uploader"
         showUploadList={false}
-        action='http://localhost:5000/files' //"https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        action='http://localhost:5000/files' //"https://www.mocky.io/v2/5cc8019d300000980a055e76" <- !!! this needs to be a prop
         headers={{project: location}}
         beforeUpload={beforeUpload}
         onChange={this.handleChange}

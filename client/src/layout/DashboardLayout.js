@@ -12,8 +12,6 @@ const { Header, Content, Footer, Sider } = Layout;
 
 const MenuItemGroup = Menu.ItemGroup;
 
-const apiKey = '-beWSq47TuufC_mSV0rD6Q==';
-
 class DashboardLayout extends Component {
 	state = {
 		loggedIn: UserProfile.getName() !== null

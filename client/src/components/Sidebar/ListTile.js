@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 import { Form, Input } from 'antd';
 import { initializeAction } from '../../utils.js'
 import IconsDialog from '../IconsDialog'
+import { EventEmitter } from '../../utils/Events.js'
+import Common from './Common'
 
-class ListTile extends React.Component {
+class ListTile extends Common {
 	constructor(props) {
 		super(props);
+
+		this.widgetProps = JSON.parse(window.localStorage.currentSelection).widgetProps
 	}
 
 	formItemLayout = {
@@ -21,90 +25,88 @@ class ListTile extends React.Component {
 
     refreshProps() {
     	this.props.form.setFieldsValue({
-	      text: JSON.parse(window.localStorage.currentSelection).widgetProps.text,
+	      text: this.widgetProps.text,
 	    });
     }
 
     getLeadingIcon(value) {
-    	this.icon.input.value = value;
-    	this.props.setLeadingIcon(value)
+    	this.leadingIcon.input.value = value;
+    	// this.props.setLeadingIcon(value)
+    	EventEmitter.dispatch('setLeadingIcon', value)
     }
 
     getTrailingIcon(value) {
-    	this.icon.input.value = value;
-    	this.props.setTrailingIcon(value)
+    	this.trailingIcon.input.value = value;
+    	// this.props.setTrailingIcon(value)
+    	EventEmitter.dispatch('setTrailingIcon', value)
     }
     
     render() {
 	    const { getFieldDecorator } = this.props.form;
 
 		return(
-			<Form {...this.formItemLayout}>
-		        <Form.Item label="Title">
-		          {getFieldDecorator('title', {
-		          	initialValue: JSON.parse(window.localStorage.currentSelection).widgetProps.title, 
-		            rules: [
-		              {
-		                required: true,
-		                message: 'Please input the title',
-		              },
-		            ],
-		          })(<Input onChange={this.props.setTitle.bind(this)} />)}
-		        </Form.Item>
-
-		        <Form.Item label="Subtitle">
-		          {getFieldDecorator('subtitle', {
-		          	initialValue: JSON.parse(window.localStorage.currentSelection).widgetProps.subtitle, 
-		            rules: [
-		              {
-		                required: true,
-		                message: 'Please input the subtitle',
-		              },
-		            ],
-		          })(<Input onChange={this.props.setSubtitle.bind(this)} />)}
-		        </Form.Item>
-
-		        <IconsDialog>
-			        <Form.Item getIcon={this.getLeadingIcon.bind(this)} label="Leading Icon" style={{cursor: 'pointer'}}>
-			          {getFieldDecorator('Leading Icon', {
-			          	initialValue: JSON.parse(window.localStorage.currentSelection).widgetProps.leadingIcon, 
+			<div>
+				<Form {...this.formItemLayout}>
+			        <Form.Item label="Title">
+			          {getFieldDecorator('title', {
+			          	initialValue: this.widgetProps.title, 
 			            rules: [
 			              {
 			                required: true,
-			                message: 'Please input the icon',
+			                message: 'Please input the title',
 			              },
 			            ],
-			          })(<Input addonBefore="Choose icon" placeholder='Click to select file' ref={input => this.icon = input} />)}
+			          })(<Input onChange={ event => EventEmitter.dispatch('setTitle', event.target.value) } />)} {/*this.props.setTitle.bind(this)*/}
 			        </Form.Item>
-		        </IconsDialog>
 
-		        <IconsDialog>
-			        <Form.Item getIcon={this.getTrailingIcon.bind(this)} label="Trailing Icon" style={{cursor: 'pointer'}}>
-			          {getFieldDecorator('Trailing Icon', {
-			          	initialValue: JSON.parse(window.localStorage.currentSelection).widgetProps.trailingIcon, 
+			        <Form.Item label="Subtitle">
+			          {getFieldDecorator('subtitle', {
+			          	initialValue: this.widgetProps.subtitle, 
 			            rules: [
 			              {
 			                required: true,
-			                message: 'Please input the icon',
+			                message: 'Please input the subtitle',
 			              },
 			            ],
-			          })(<Input addonBefore="Choose icon" placeholder='Click to select file' ref={input => this.icon = input} />)}
+			          })(<Input onChange={ event => EventEmitter.dispatch('setSubtitle', event.target.value) } />)}
 			        </Form.Item>
-		        </IconsDialog>
-		    </Form>
+
+			        <IconsDialog>
+				        <Form.Item geticon={this.getLeadingIcon.bind(this)} label="Leading Icon" style={{cursor: 'pointer'}}>
+				          {getFieldDecorator('Leading Icon', {
+				          	initialValue: this.widgetProps.leadingIcon, 
+				            rules: [
+				              {
+				                required: true,
+				                message: 'Please input the icon',
+				              },
+				            ],
+				          })(<Input addonBefore="Choose icon" placeholder='Click to select file' ref={input => this.leadingIcon = input} />)}
+				        </Form.Item>
+			        </IconsDialog>
+
+			        <IconsDialog>
+				        <Form.Item geticon={this.getTrailingIcon.bind(this)} label="Trailing Icon" style={{cursor: 'pointer'}}>
+				          {getFieldDecorator('Trailing Icon', {
+				          	initialValue: this.widgetProps.trailingIcon, 
+				            rules: [
+				              {
+				                required: true,
+				                message: 'Please input the icon',
+				              },
+				            ],
+				          })(<Input addonBefore="Choose icon" placeholder='Click to select file' ref={input => this.trailingIcon = input} />)}
+				        </Form.Item>
+			        </IconsDialog>
+			    </Form>
+
+			    { super.render() }
+			</div>
 		)
 	}
 }
 
 const ListTileSidebar = Form.create({ name: 'register' })(ListTile);
 
-class ListTileActions {
-	static initialize() {
-		this.actions = initializeAction(['setTitle', 'setSubtitle', 'setLeadingIcon', 'setTrailingIcon'], this);
-	}
-}
-
-export {
-	ListTileSidebar, ListTileActions 
-};
+export default ListTileSidebar
 

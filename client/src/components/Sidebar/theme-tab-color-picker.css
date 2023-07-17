@@ -1,0 +1,5 @@
+.rc-color-picker-wrap { width: 100%; }
+.rc-color-picker-trigger { width: 90% }
+tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td {
+    font-weight: bold !important;
+}

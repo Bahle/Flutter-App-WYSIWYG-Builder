@@ -6,3 +6,67 @@
 .MuiListItemSecondaryAction-root > .MuiListItemIcon-root {
 	min-width: 0;
 }
+
+.MuiTabs-flexContainer .MuiTab-root {
+	min-width: 0 !important;
+}
+.react-swipeable-view-container {
+	width: 100%;
+}
+.ant-carousel .slick-slide {
+  text-align: center;
+  height: 100%;
+  line-height: 100%;
+  background: #364d79;
+  overflow: hidden;
+}
+
+.ant-carousel .slick-slide h3 {
+  color: #fff;
+}
+.ant-carousel {
+	width: 100%;
+	height: 100%;
+}
+.slick-list, .slick-track, .slick-slide > div, .slick-slide > div > div {
+	height: 100%;
+}
+.MuiToolbar-gutters {
+	padding-left: 14px;
+}
+.MuiDrawer-docked {
+	display: none;
+}
+.form-list-tile {
+	text-align: left !important;
+	position: relative;
+}
+.form-list-tile.subtitle .MuiFormControlLabel-label {
+	position: relative;
+	top: -7px;
+}
+.form-list-tile-subtitle {
+	color: rgba(0, 0, 0, 0.54);
+	position: absolute;
+	top: 22px;
+	left: 30px;
+}
+.form-list-tile.switch .form-list-tile-subtitle {
+	left: 47px;
+}
+.list-tiles-list .MuiListItem-gutters {
+	border-bottom: solid thin #eee;
+}
+.list-tiles-list  .MuiListItemIcon-root {
+	min-width: 40px;
+}
+.list-tiles-list .MuiListItemText-secondary {
+	text-overflow: ellipsis;
+    overflow: hidden;
+    display: block ruby;
+}
+.MuiButton-label {
+	height: 100%;
+	align-items: center;
+	justify-content: center;
+}

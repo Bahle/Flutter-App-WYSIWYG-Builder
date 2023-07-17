@@ -1,0 +1,19 @@
+
+
+  <import package="flutter_view_tools/flutter_view_tools.dart"/>
+  <a54419390-8408-11ea-94c5-d5dc6c1ebb1a flutter-view="true">
+    <scaffold>
+      <layout-builder as="body">
+        <function as="builder" params="context, viewportConstraints">
+          <single-child-scroll-view>
+            <constrained-box>
+              <box-constraints as="constraints" :minHeight="viewportConstraints.maxHeight"/>
+              <stack>
+                <div margin="30 83">aaaa</div>
+              </stack>
+            </constrained-box>
+          </single-child-scroll-view>
+        </function>
+      </layout-builder>
+    </scaffold>
+  </a54419390-8408-11ea-94c5-d5dc6c1ebb1a>

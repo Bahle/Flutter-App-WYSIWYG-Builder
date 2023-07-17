@@ -4,6 +4,7 @@ import "./EditableTable.css"
 import AutoComplete from './AutoComplete'
 import Dialog from './Dialog'
 import DataModelDialog from './DataModelDialog'
+import modelTypeFields from '../json/ModelTypes'
 
 const uuid = require('uuid/v4');
 const EditableContext = React.createContext();
@@ -110,12 +111,33 @@ class EditableTable extends React.Component {
       render: (index, record) => (
         <Select defaultValue={record.dataType || 'String'} style={{width: '100%'}} value={record.dataType} onChange={this.handleDataTypeChange.bind(this, record.key)}>
           <OptGroup label="Primitives">
-            <Option value="String">String</Option>
-            <Option value="Int">Int</Option>
-            <Option value="Bool">Bool</Option>
+            <Option value="Full Name">Full Name</Option>
+            <Option value="Address">Address</Option>
+            <Option value="Black Faces">Black Faces</Option>
+            <Option value="Business Name">Business Name</Option>
+            <Option value="City">City</Option>
+            <Option value="Country">Country</Option>
             <Option value="Date">Date</Option>
-            <Option value="Float">Float</Option>
-            <Option value="Enum">Enum</Option>
+            <Option value="Email">Email</Option>
+            <Option value="First Name">First Name</Option>
+            <Option value="Gender">Gender</Option>
+            <Option value="Grocery">Grocery</Option>
+            <Option value="IBAN">IBAN</Option>
+            <Option value="Last Name">Last Name</Option>
+            <Option value="Lat">Latitude</Option>
+            <Option value="Lng">Longitude</Option>
+            <Option value="Username">Username</Option>
+            <Option value="Mixed Faces">Mixed Faces</Option>
+            <Option value="Money">Money</Option>
+            <Option value="Password">Password</Option>
+            <Option value="Phone">Phone</Option>
+            <Option value="Rating">Rating</Option>
+            <Option value="Sentences">Sentences</Option>
+            <Option value="Shirt Size">Shirt Size</Option>
+            <Option value="State">State</Option>
+            <Option value="Time">Time</Option>
+            <Option value="Website">Website</Option>
+            <Option value="Words">Words</Option>
           </OptGroup>
           <OptGroup label="Single Object">
             <Option value="Single Current">Current Object (Single)</Option>
@@ -127,14 +149,14 @@ class EditableTable extends React.Component {
           </OptGroup>
         </Select>
       )
-    }, {
+    }/*, {
       title: 'Mockup Field',
       dataIndex: 'mockupField',
       render: (index, record) => {
-        const modelTypeFields = JSON.parse(window.localStorage.modelTypes);
+        // const modelTypeFields = JSON.parse(window.localStorage.modelTypes);
         return <AutoComplete value={record.mockupField} width="100%" dataSource={modelTypeFields[this.props.ModelType]} onChange={this.handleMockupField.bind(this, record.key)} />
       }
-    }]
+    }*/]
 
     this.columns = this.columns;
     this.state = {
@@ -149,6 +171,7 @@ class EditableTable extends React.Component {
     const row = dataSource[rowIndex];
     row[field] = value;
     dataSource[rowIndex] = row
+    // alert('changnig state to ' + JSON.stringify(dataSource))
     this.setState({ dataSource })
   }
 
@@ -238,7 +261,7 @@ class EditableTable extends React.Component {
           columns={columns}
           pagination={false}
         />
-        <Button onClick={this.handleAdd} type="primary" style={{ position:'relative', marginTop: '14px', /*top: this.props.Value.length ? '-51px' : 0*/ }}>Add a row</Button>
+        <Button onClick={this.handleAdd} type="primary" style={{ float:'left', marginTop: '14px' }}>Add a row</Button>
       </div>
     );
   }
