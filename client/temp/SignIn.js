@@ -8,7 +8,7 @@ import { SERVER_URL } from '../../constants';
 
 const FormItem = Form.Item;
 
-// var server = 'http://localhost:5000'; // put this in a file called constants
+// var server = ''; // put this in a file called constants
 
 class NormalLoginForm extends Component {
   state = {

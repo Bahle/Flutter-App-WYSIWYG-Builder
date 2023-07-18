@@ -38,7 +38,7 @@ class Home extends Component {
 
   componentDidMount() {
     axios
-      .get('http://localhost:5000/project')
+      .get('/project')
       .then(response => {
         console.log('the projects are ' + response.data.results)
         this.setState({projects: response.data.results || []})

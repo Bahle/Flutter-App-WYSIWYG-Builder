@@ -14,7 +14,7 @@ const RUGElement = props => {
 	React.useEffect(() => {
 		// let images = [];
 		axios
-			.get('http://localhost:5000/images?project=' + location)
+			.get('/images?project=' + location)
 			.then(response => {
 				console.log(JSON.stringify(response.data.result))
         response.data.result.push({name: 'Set Null', source: ''})
@@ -25,7 +25,7 @@ const RUGElement = props => {
 
 	return (
 		images.length == 0 ? <div>loading...</div> : <RUG
-		  action="http://localhost:5000/images" // upload route
+		  action="/images" // upload route
 		  headers={{project: location}}
 		  source={response => response.source } // response image source
 		  initialState={images} // {source: './logo512.png', name: 'logo'}

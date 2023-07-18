@@ -324,7 +324,7 @@ class Home extends Component {
 
     // alert('happening')
     axios
-      .post('http://localhost:5000/project/page', {
+      .post('/project/page', {
         id: project,
         page: newPage
       })
@@ -376,7 +376,7 @@ class Home extends Component {
         project = project[project.length-1]
 
     axios
-      .delete('http://localhost:5000/project/page', {
+      .delete('/project/page', {
         data : {
           id: project,
           page: currentPageName
@@ -438,7 +438,7 @@ class Home extends Component {
     // console.dir('sending: ', data)
     
     axios
-      .post('http://localhost:5000/project/fuck/', data)
+      .post('/project/fuck/', data)
       .then(response => {
         // alert('why refresh?')
       })
@@ -605,7 +605,7 @@ class Wrapper extends React.Component {
     projectId = projectId[projectId.length-1]
 
     axios
-      .get('http://localhost:5000/project?id=' + projectId)
+      .get('/project?id=' + projectId)
       .then(response => {
         // return;
         // alert('Got: ' + JSON.stringify(response.data.results));

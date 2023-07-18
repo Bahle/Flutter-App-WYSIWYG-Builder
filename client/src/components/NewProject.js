@@ -238,7 +238,7 @@ class CollectionsPage extends React.Component {
       }
 
       axios
-        .post('http://localhost:5000/project', {
+        .post('/project', {
           title: form.getFieldValue('title'),
           packageName: form.getFieldValue('package'),
           firebasePackages: form.getFieldValue('firebasePackages'),
