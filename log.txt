@@ -1,0 +1,71 @@
+2023-07-18T06:25:56.826422+00:00 app[api]: Release v1 created by user bahle.makhaya@gmail.com
+2023-07-18T06:25:56.826422+00:00 app[api]: Initial release by user bahle.makhaya@gmail.com
+2023-07-18T06:25:57.059610+00:00 app[api]: Release v2 created by user bahle.makhaya@gmail.com
+2023-07-18T06:25:57.059610+00:00 app[api]: Enable Logplex by user bahle.makhaya@gmail.com
+2023-07-18T06:36:43.000000+00:00 app[api]: Build started by user bahle.makhaya@gmail.com
+2023-07-18T06:37:08.233460+00:00 app[api]: Deploy 2585f85a by user bahle.makhaya@gmail.com
+2023-07-18T06:37:08.233460+00:00 app[api]: Release v3 created by user bahle.makhaya@gmail.com
+2023-07-18T06:37:08.247580+00:00 app[api]: Scaled to web@1:Basic by user bahle.makhaya@gmail.com
+2023-07-18T06:37:09.000000+00:00 app[api]: Build succeeded
+2023-07-18T06:37:11.371603+00:00 heroku[web.1]: Starting process with command `npm start`
+2023-07-18T06:37:12.911834+00:00 app[web.1]: 
+2023-07-18T06:37:12.911863+00:00 app[web.1]: > automategui@1.0.0 start
+2023-07-18T06:37:12.911863+00:00 app[web.1]: > nodemon index.js --ignore client/ -e html,js,css
+2023-07-18T06:37:12.911863+00:00 app[web.1]: 
+2023-07-18T06:37:12.919396+00:00 app[web.1]: sh: 1: nodemon: not found
+2023-07-18T06:37:13.170191+00:00 heroku[web.1]: Process exited with status 127
+2023-07-18T06:37:13.196989+00:00 heroku[web.1]: State changed from starting to crashed
+2023-07-18T06:37:13.200164+00:00 heroku[web.1]: State changed from crashed to starting
+2023-07-18T06:37:16.496636+00:00 heroku[web.1]: Starting process with command `npm start`
+2023-07-18T06:37:18.794487+00:00 app[web.1]: 
+2023-07-18T06:37:18.794513+00:00 app[web.1]: > automategui@1.0.0 start
+2023-07-18T06:37:18.794514+00:00 app[web.1]: > nodemon index.js --ignore client/ -e html,js,css
+2023-07-18T06:37:18.794514+00:00 app[web.1]: 
+2023-07-18T06:37:18.802367+00:00 app[web.1]: sh: 1: nodemon: not found
+2023-07-18T06:37:19.002690+00:00 heroku[web.1]: Process exited with status 127
+2023-07-18T06:37:19.037421+00:00 heroku[web.1]: State changed from starting to crashed
+2023-07-18T06:38:26.872189+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=syntheno-6424825605c6.herokuapp.com request_id=35957a31-96e1-4b2b-a767-e813f79c1a8a fwd="129.232.99.17" dyno= connect= service= status=503 bytes= protocol=https
+2023-07-18T06:38:27.222517+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/favicon.ico" host=syntheno-6424825605c6.herokuapp.com request_id=ca9a1410-34ad-47d6-8989-c9628e1aa547 fwd="129.232.99.17" dyno= connect= service= status=503 bytes= protocol=https
+2023-07-18T06:39:34.285807+00:00 app[api]: Running release v4 commands by user bahle.makhaya@gmail.com
+2023-07-18T06:39:34.285807+00:00 app[api]: Attach CLEARDB_DATABASE (@ref:cleardb-flexible-02069) by user bahle.makhaya@gmail.com
+2023-07-18T06:39:34.297364+00:00 app[api]: @ref:cleardb-flexible-02069 completed provisioning, setting CLEARDB_DATABASE_URL. by user bahle.makhaya@gmail.com
+2023-07-18T06:39:34.297364+00:00 app[api]: Release v5 created by user bahle.makhaya@gmail.com
+2023-07-18T06:39:35.459905+00:00 heroku[web.1]: State changed from crashed to starting
+2023-07-18T06:39:38.260194+00:00 heroku[web.1]: Starting process with command `npm start`
+2023-07-18T06:39:39.730552+00:00 app[web.1]: 
+2023-07-18T06:39:39.730575+00:00 app[web.1]: > automategui@1.0.0 start
+2023-07-18T06:39:39.730578+00:00 app[web.1]: > nodemon index.js --ignore client/ -e html,js,css
+2023-07-18T06:39:39.730578+00:00 app[web.1]: 
+2023-07-18T06:39:39.737014+00:00 app[web.1]: sh: 1: nodemon: not found
+2023-07-18T06:39:39.876357+00:00 heroku[web.1]: Process exited with status 127
+2023-07-18T06:39:39.908206+00:00 heroku[web.1]: State changed from starting to crashed
+2023-07-18T06:41:38.779766+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=syntheno-6424825605c6.herokuapp.com request_id=c10e2e37-1c49-4b0f-94fc-5ef19eea8b06 fwd="129.232.99.17" dyno= connect= service= status=503 bytes= protocol=https
+2023-07-18T06:48:45.749902+00:00 heroku[web.1]: State changed from crashed to starting
+2023-07-18T06:48:48.489272+00:00 heroku[web.1]: Starting process with command `npm start`
+2023-07-18T06:48:50.045847+00:00 app[web.1]: 
+2023-07-18T06:48:50.045883+00:00 app[web.1]: > automategui@1.0.0 start
+2023-07-18T06:48:50.045884+00:00 app[web.1]: > nodemon index.js --ignore client/ -e html,js,css
+2023-07-18T06:48:50.045884+00:00 app[web.1]: 
+2023-07-18T06:48:50.061425+00:00 app[web.1]: sh: 1: nodemon: not found
+2023-07-18T06:48:50.202141+00:00 heroku[web.1]: Process exited with status 127
+2023-07-18T06:48:50.403388+00:00 heroku[web.1]: State changed from starting to crashed
+2023-07-18T07:11:15.682257+00:00 heroku[web.1]: State changed from crashed to starting
+2023-07-18T07:11:19.100825+00:00 heroku[web.1]: Starting process with command `npm start`
+2023-07-18T07:11:20.766819+00:00 app[web.1]: 
+2023-07-18T07:11:20.766848+00:00 app[web.1]: > automategui@1.0.0 start
+2023-07-18T07:11:20.766850+00:00 app[web.1]: > nodemon index.js --ignore client/ -e html,js,css
+2023-07-18T07:11:20.766851+00:00 app[web.1]: 
+2023-07-18T07:11:20.774156+00:00 app[web.1]: sh: 1: nodemon: not found
+2023-07-18T07:11:20.954538+00:00 heroku[web.1]: Process exited with status 127
+2023-07-18T07:11:20.990381+00:00 heroku[web.1]: State changed from starting to crashed
+2023-07-18T07:53:55.474615+00:00 heroku[web.1]: State changed from crashed to starting
+2023-07-18T07:53:58.962786+00:00 heroku[web.1]: Starting process with command `npm start`
+2023-07-18T07:54:00.536621+00:00 app[web.1]: 
+2023-07-18T07:54:00.536642+00:00 app[web.1]: > automategui@1.0.0 start
+2023-07-18T07:54:00.536642+00:00 app[web.1]: > nodemon index.js --ignore client/ -e html,js,css
+2023-07-18T07:54:00.536643+00:00 app[web.1]: 
+2023-07-18T07:54:00.543577+00:00 app[web.1]: sh: 1: nodemon: not found
+2023-07-18T07:54:00.686395+00:00 heroku[web.1]: Process exited with status 127
+2023-07-18T07:54:00.721059+00:00 heroku[web.1]: State changed from starting to crashed
+2023-07-18T07:57:12.062284+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=syntheno-6424825605c6.herokuapp.com request_id=5b0e03a1-8f70-42c6-afd1-5df9240561d5 fwd="129.232.99.17" dyno= connect= service= status=503 bytes= protocol=https
+Terminate batch job (Y/N)? 

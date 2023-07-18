@@ -2,7 +2,7 @@ const router = require('express').Router();
 const fs = require('fs');
 const { create: xmlbuilder } = require('xmlbuilder2');
 
-const projectsFolder = `./client/public/projects`
+const projectsFolder = `./client/public/Projects`
 
 function get(req, res) {
 	if( req.query.id === undefined ) {
